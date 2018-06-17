@@ -4,6 +4,14 @@ class Api::PostsController < ApplicationController
 
     search_term = params[:search]
     if search_term
+
+      # @posts.where("title iLIKE ? OR content iLIKE ?", "%#{search_term}%", "%#{search_term}%")
+
+      # # temp_posts<< @post.visit.city.where("name iLIKE ?", "%#{search_term}%")
+
+      # # temp_posts<< @post.visit.city.country.where("name iLIKE ?", "%#{search_term}%")
+
+      # @posts = temp_posts
       @posts = @posts.where("title iLIKE ? OR content iLIKE ?", "%#{search_term}%", "%#{search_term}%")
     end
 
@@ -52,14 +60,14 @@ class Api::PostsController < ApplicationController
                     visit_id: visit.id
                             )
 
-      if @post.save
-        render 'show.json.jbuilder'
-      elsif
-        render json: {errors: @post.errors.full_messages}, status: :unprocessable_entity
-      end
+        if @post.save
+          render 'show.json.jbuilder'
+        elsif
+          render json: {errors: @post.errors.full_messages}, status: :unprocessable_entity
+        # render json: {errors: @post.errors.full_messages}, status: :unprocessable_entity
+        end
     else
-      # render json: {errors: @post.errors.full_messages}, status: :unprocessable_entity
-      render json: {message: "You have not visited this city."}
+        render json: {message: "You have not visited this city."}, status: 403
     end
   end
 
