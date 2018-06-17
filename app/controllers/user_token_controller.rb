@@ -1,10 +1,10 @@
 class UserTokenController < Knock::AuthTokenController
   def create
-    username = request.params["auth"] && request.params["auth"]["username"]
-    user = User.find_by(username: username)
+    email = request.params["auth"] && request.params["auth"]["email"]
+    user = User.find_by(email: email)
     body = {
       jwt: auth_token.token,
-      user: { id: user.id, username: user.username }
+      user: { id: user.id, email: user.email }
     }
 
     # bio: user.bio

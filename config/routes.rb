@@ -17,4 +17,14 @@ Rails.application.routes.draw do
     patch '/users/:id' => 'users#update'
     delete '/users/:id' => 'users#destroy'
 
+  namespace :api do
+    post '/votes' => 'votes#create'
+    delete '/votes/:id' => 'votes#destroy'
+  end
+
+  namespace :api do
+    post '/visits' => 'visits#create'
+    delete '/visits/:id' => 'visits#destroy'
+  end
+
 end

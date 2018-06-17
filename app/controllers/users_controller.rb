@@ -8,7 +8,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(
-      username: params[:username],
+      email: params[:email],
       bio: params[:bio],
       password: params[:password],
       password_confirmation: params[:password_confirmation]
@@ -30,7 +30,7 @@ class UsersController < ApplicationController
       user_id = params[:id]
       @user = User.find(user_id)
 
-      @user.username = params[:username] || @user.username
+      @user.email = params[:email] || @user.email
       @user.bio = params[:bio] || @user.bio
       
       if @user.save
