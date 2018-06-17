@@ -1,14 +1,13 @@
 class Api::VotesController < ApplicationController
   def create
-    @vote = Vote.new(
+    @vote = Vote.find_or_create_by(
                             user_id: current_user.id,
                            votable_id: params[:votable_id],
                            votable_type: "Post",
-                           positive: true
                           )
+     @vote.update(positive: params[:positive])
 
-    @vote.save
-    Rails.logger.info(@vote.errors.inspect) 
+    # Rails.logger.info(@vote.errors.inspect) 
   end
 
   def destroy

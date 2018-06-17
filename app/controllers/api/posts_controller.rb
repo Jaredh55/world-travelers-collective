@@ -18,10 +18,19 @@ class Api::PostsController < ApplicationController
     sort_attribute = params[:sort_by]
     sort_order = params[:sort_order]
 
-    if sort_attribute && sort_order
+    if sort_attribute == "score" && sort_order == "asc"
+      @posts = @posts.sort_by_score_asc
+    elsif sort_attribute == "score" && sort_order == "desc"
+      @posts = @posts.sort_by_score_desc
+    elsif sort_attribute == "created_at" && sort_order == "asc"
       @posts = @posts.order(sort_attribute => sort_order)
-    elsif sort_attribute
-      @posts = @posts.order(sort_attribute => :asc)
+    elsif sort_attribute == "created_at" && sort_order == "desc"
+      @posts = @posts.order(sort_attribute => :desc)
+
+    # elsif sort_attribute && sort_order
+    #   @posts = @posts.order(sort_attribute => sort_order)
+    # elsif sort_attribute
+    #   @posts = @posts.order(sort_attribute => :asc)
     else
       @posts = @posts.order(:id => :asc)
     end

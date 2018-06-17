@@ -9,3 +9,4 @@ json.city @post.visit.city
 json.country @post.city.country
 json.votes @post.votes
 json.votecount @post.votes.count
+json.score @post.score
