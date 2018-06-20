@@ -3,7 +3,7 @@ class Api::VotesController < ApplicationController
     @vote = Vote.find_or_create_by(
                             user_id: current_user.id,
                            votable_id: params[:votable_id],
-                           votable_type: "Post",
+                           votable_type: params[:votable_type]
                           )
      @vote.update(positive: params[:positive])
 
@@ -11,8 +11,9 @@ class Api::VotesController < ApplicationController
   end
 
   def destroy
-    post_id = params[:id]
-    vote = Vote.find_by(user_id: current_user.id, votable_id: post_id, votable_type: "Post")
+    votable_id = params[:id]
+    votable_type = params[:votable_type]
+    vote = Vote.find_by(user_id: current_user.id, votable_id: votable_id, votable_type: votable_type)
     vote.destroy
     render json: {message: "Removed upvote."}
   end

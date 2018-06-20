@@ -10,3 +10,13 @@ json.country @post.city.country
 json.votes @post.votes
 json.votecount @post.votes.count
 json.score @post.score
+# json.comments @post.comments
+
+json.comments do
+  json.array! @post.comments, partial: "api/comments/comment", as: :comment
+end
+
+# json.comments do |comment|
+#   json.user @post.comment.user
+#   json.content @post.comment.content
+# end

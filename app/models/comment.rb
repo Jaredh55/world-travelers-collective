@@ -1,9 +1,7 @@
-class Post < ApplicationRecord
-  belongs_to :visit
-  has_one :user, through: :visit
+class Comment < ApplicationRecord
+  belongs_to :user
+  belongs_to :post
   has_many :votes, :as => :votable
-  has_one :city, through: :visit
-  has_many :comments
 
   def upvotes
     votes.where(positive: true).count
@@ -22,12 +20,7 @@ class Post < ApplicationRecord
     # posts.sort_by do |post|
     #   post.score
     # end
-    posts = self.all
-    posts.sort_by {|post| post.score}
-  end
-
-  def self.sort_by_score_desc
-    posts = self.all
-    posts.sort_by {|post| post.score }.reverse
+    comments = self.all
+    comments.sort_by {|comment| comment.score}
   end
 end

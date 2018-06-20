@@ -27,4 +27,9 @@ Rails.application.routes.draw do
     delete '/visits/:id' => 'visits#destroy'
   end
 
+  namespace :api do
+    post '/comments' => 'comments#create'
+    delete '/comments/:id' => 'comments#destroy'
+  end
+
 end
