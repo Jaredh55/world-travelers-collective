@@ -18,12 +18,12 @@ class Api::VisitsController < ApplicationController
   end
 
   def destroy
-    user_id = params[:id]
+    visit_id = params[:id]
 
-    if user_id == current_user.id
+    visit = Visit.find_by(id: visit_id)
 
-      visit = Visit.find_by(user_id: current_user.id, city_id: params[:city_id])
-      vote.destroy
+    if visit.user_id == current_user.id
+      visit.destroy
     else 
       render json: {message: "You are not authorized."}
     end 

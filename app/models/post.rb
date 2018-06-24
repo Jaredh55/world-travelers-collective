@@ -4,6 +4,17 @@ class Post < ApplicationRecord
   has_many :votes, :as => :votable
   has_one :city, through: :visit
   has_many :comments
+  has_many :post_tags
+  has_many :tags, through: :post_tags
+  has_many :images
+
+  def show_tags
+    tag_name_array = []
+    tags.each do |tag|
+      tag_name_array << tag.name
+    end
+    tag_name_array.join(", ")
+  end
 
   def upvotes
     votes.where(positive: true).count

@@ -21,6 +21,8 @@ class UsersController < ApplicationController
   end
 
   def show
+    @current_user_id = current_user.id
+    
     user_id = params[:id]
     @user = User.find(user_id)
     render 'show.json.jbuilder'

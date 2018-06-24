@@ -1,5 +1,6 @@
 class Api::PostsController < ApplicationController
   def index
+    # @current_user_id = current_user.id
     @posts = Post.all
 
     search_term = params[:search]
@@ -32,7 +33,7 @@ class Api::PostsController < ApplicationController
     # elsif sort_attribute
     #   @posts = @posts.order(sort_attribute => :asc)
     else
-      @posts = @posts.order(:id => :asc)
+      @posts = @posts.sort_by_score_desc
     end
 
     # if sort_attribute == "votes"
@@ -49,12 +50,15 @@ class Api::PostsController < ApplicationController
   end
 
   def show
+    @current_user_id = current_user.id
+    
     post_id = params[:id]
     @post = Post.find(post_id)
     render 'show.json.jbuilder'
   end
 
   def create
+    
     post_city = City.find_by(name: params[:city])
     post_city_id = post_city.id
     visit = Visit.find_by(user_id: current_user.id, city_id: post_city_id)
@@ -70,7 +74,16 @@ class Api::PostsController < ApplicationController
                             )
 
         if @post.save
+
+            input_tags = params[:tags]
+            split_tags = input_tags.split(', ')
+            split_tags.each do |tag|
+              input_tag = Tag.find_or_create_by(name: tag)
+              post_tag = PostTag.create(post_id: @post.id, tag_id: input_tag.id)
+            end
+
           render 'show.json.jbuilder'
+
         elsif
           render json: {errors: @post.errors.full_messages}, status: :unprocessable_entity
         # render json: {errors: @post.errors.full_messages}, status: :unprocessable_entity
@@ -84,17 +97,31 @@ class Api::PostsController < ApplicationController
       post_id = params[:id]
       @post = Post.find(post_id)
 
-      @post.title = params[:title] || @post.title
-      @post.content = params[:content] || @post.content
-      @post.latitude = params[:latitude] || @post.latitude
-      @post.longitude = params[:longitude] || @post.longitude
-      @post.visit_id = params[:visit_id] || @post.visit_id
-      
-      if @post.save
-      render 'show.json.jbuilder'
-      else
-      render json: {errors: @post.errors.full_messages}, status: :unprocessable_entity
-      end
+        @post.title = params[:title] || @post.title
+        @post.content = params[:content] || @post.content
+        @post.latitude = params[:latitude] || @post.latitude
+        @post.longitude = params[:longitude] || @post.longitude
+        @post.visit_id = params[:visit_id] || @post.visit_id
+        
+        if @post.save
+
+          post_tags = PostTag.where(post_id: @post.id)
+          post_tags.each do |posttag|
+            posttag.destroy
+          end
+
+          input_tags = params[:tags]
+          split_tags = input_tags.split(', ')
+          split_tags.each do |tag|
+            input_tag = Tag.find_or_create_by(name: tag)
+            post_tag = PostTag.find_or_create_by(post_id: @post.id, tag_id: input_tag.id)
+          end
+
+        render 'show.json.jbuilder'
+
+        else
+        render json: {errors: @post.errors.full_messages}, status: :unprocessable_entity
+        end
   end
 
   def destroy

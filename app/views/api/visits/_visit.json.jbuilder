@@ -1,5 +1,6 @@
 json.city visit.city
 json.country visit.city.country
+json.id visit.id
 # json.posts visit.posts #start here
 
 json.posts do
