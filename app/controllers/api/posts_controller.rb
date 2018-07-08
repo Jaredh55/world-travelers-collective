@@ -1,6 +1,6 @@
 class Api::PostsController < ApplicationController
   def index
-    # @current_user_id = current_user.id
+    @current_user_id = current_user.id
     @posts = Post.all
 
     search_term = params[:search]
@@ -70,6 +70,7 @@ class Api::PostsController < ApplicationController
                     content: params[:content],
                     latitude: params[:latitude],
                     longitude: params[:longitude],
+                    post_image: params[:post_image],
                     visit_id: visit.id
                             )
 
@@ -110,12 +111,14 @@ class Api::PostsController < ApplicationController
             posttag.destroy
           end
 
-          input_tags = params[:tags]
-          split_tags = input_tags.split(', ')
-          split_tags.each do |tag|
-            input_tag = Tag.find_or_create_by(name: tag)
-            post_tag = PostTag.find_or_create_by(post_id: @post.id, tag_id: input_tag.id)
+          if params[:tags]
+            input_tags = params[:tags]
+            split_tags = input_tags.split(', ')
+            split_tags.each do |tag|
+              input_tag = Tag.find_or_create_by(name: tag)
+              post_tag = PostTag.find_or_create_by(post_id: @post.id, tag_id: input_tag.id)
           end
+        end
 
         render 'show.json.jbuilder'
 

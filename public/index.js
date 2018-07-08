@@ -1,0 +1,510 @@
+/* global Vue, VueRouter, axios */
+
+var UsersEditPage = {
+  template: "#users-edit-page",
+  data: function() {
+    return { 
+      user: {
+        email: "",
+        bio: "",
+        user_id: "",
+        visits: "",
+        posts: "",
+        points: ""
+      }
+    };
+  },
+  created: function() {
+    axios
+    .patch("/users/" + this.$route.params.id )
+    .then(function(response) {
+      this.post = response.data;
+    }.bind(this));
+  },
+  methods: {},
+  computed: {}
+};
+
+var UsersShowPage = {
+  template: "#users-show-page",
+  data: function() {
+    return { 
+      user: {
+        email: "",
+        bio: "",
+        user_id: "",
+        visits: "",
+        posts: "",
+        points: ""
+      },
+      currentuser: {
+        current_user: ""
+      }
+    };
+  },
+  created: function() {
+    axios
+    .get("/users/" + this.$route.params.id )
+    .then(function(response) {
+      this.user = response.data;
+    }.bind(this));
+  },
+  methods: {
+    //   isCurrentUser: function(inputid) {
+    //   return inputid === current_user;
+    // },
+  },
+  computed: {}
+};
+
+var PostsEditPage = {
+  template: "#posts-edit-page",
+  data: function() {
+    return { 
+      post: {
+        id: "",
+        title: "",
+        content: "",
+        latitude: "",
+        longitude: "",
+        visit_id: "",
+        city: "",
+        tags: ""
+      }
+      // edited_post: {
+      //   edited_title: "",
+      //   edited_content: "",
+      //   edited_latitude: "",
+      //   edited_longitude: "",
+      //   edited_city: "",
+      //   edited_tags: ""
+      // }
+    };
+  },
+  created: function() {
+    axios
+    .get("/api/posts/" + this.$route.params.id )
+    .then(function(response) {
+      this.post = response.data;
+    }.bind(this));
+  },
+  methods: {
+    submit: function() {
+      var params = {
+        title: this.title,
+        content: this.content,
+        latitude: this.latitude,
+        longitude: this.longitude,
+        city: this.city,
+        tags: this.tags
+
+      };
+      axios
+        .patch("/api/posts/" + this.$route.params.id, params)
+        .then(function(response) {
+          router.push("/posts");
+        })
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    }
+  },
+  computed: {}
+};
+
+var PostsNewPage = {
+  template: "#new-post",
+  data: function() {
+    return {
+      id: "",
+      title: "",
+      content: "",
+      latitude: "",
+      longitude: "",
+      visit_id: "",
+      city: "",
+      tags: "",
+      post_image_file_name: "",
+      post_image_content_type: "",
+      post_image_file_size: "",
+      post_image_updated_at: "",
+      errors: []
+    };
+  },
+  methods: {
+    submit: function() {
+      var params = {
+        title: this.title,
+        content: this.content,
+        latitude: this.latitude,
+        longitude: this.longitude,
+        city: this.city,
+        tags: this.tags
+
+      };
+      axios
+        .post("/api/posts", params)
+        .then(function(response) {
+          router.push("/posts");
+        })
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    },
+    uploadFile: function(event) {
+      if (event.target.files.length > 0) {
+        var formData = new FormData();
+        formData.append("title", this.title);
+        formData.append("content", this.content);
+        formData.append("latitude", this.latitude);
+        formData.append("longitude", this.longitude);
+        formData.append("city", this.city);
+        formData.append("tags", this.tags);
+
+        formData.append("image", event.target.files[0]);
+
+        axios
+          .post("/api/posts", formData)
+          .then(function(response) {
+            console.log(response);
+            this.title = "";
+            this.body = "";
+            event.target.value = "";
+          });
+      }
+    }  
+  },
+  computed: {}
+};
+
+var PostsShowPage = {
+  template: "#posts-show-page",
+  data: function() {
+    return { 
+      post: {
+        id: "",
+        title: "",
+        content: "",
+        latitude: "",
+        longitude: "",
+        visit_id: "",
+        post_image: "",
+        created_at: "",
+        updated_at: ""
+      },
+      newVote: {
+        votable_id: "",
+        votable_type: "",
+        positive: ""
+      },
+      newComment: {
+        content: "",
+        post_id: ""
+      }
+    };
+  },
+  created: function() {
+    axios
+    .get("/api/posts/" + this.$route.params.id )
+    .then(function(response) {
+      this.post = response.data;
+    }.bind(this));
+  },
+  methods: {
+    upvotePost: function() {
+      var params = {
+        votable_id: this.post.post_id,
+        votable_type: "Post",
+        positive: "positive"
+      };
+      var postId = this.post.post_id;
+      axios
+        .post("/api/votes", params)
+        .then(function(response) {
+          router.push("/posts/" + postId);
+        })
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    },
+    downvotePost: function() {
+      var params = {
+        votable_id: this.post.post_id,
+        votable_type: "Post",
+        positive: "false"
+      };
+      var postId = this.post.post_id;
+      axios
+        .post("/api/votes", params)
+        .then(function(response) {
+          router.push("/posts/" + postId);
+        })
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    },
+    removePostVote: function() {
+      var postId = this.post.post_id;
+
+      axios
+        .delete("/api/votes/" + postId + "?votable_type=Post")
+        .then(function(response) {
+          router.push("/posts/" + postId);
+        })
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    },
+    removeCommentVote: function(input_comment) {
+      var comment_id = input_comment.id;
+      var postId = this.post.post_id;
+
+      axios
+        .delete("/api/votes/" + comment_id + "?votable_type=Comment")
+        .then(function(response) {
+          router.push("/posts/" + postId);
+        })
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    },
+    upvoteComment: function(input_comment) {
+      var params = {
+        votable_id: input_comment.id,
+        votable_type: "Comment",
+        positive: "true"
+      };
+      var postId = this.post.post_id;
+      axios
+        .post("/api/votes", params)
+        .then(function(response) {
+          router.push("/posts/" + postId);
+        })
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    },
+    downvoteComment: function(input_comment) {
+      var params = {
+        votable_id: input_comment.id,
+        votable_type: "Comment",
+        positive: "false"
+      };
+      var postId = this.post.post_id;
+      axios
+        .post("/api/votes", params)
+        .then(function(response) {
+          router.push("/posts/" + postId);
+        })
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    },
+    addComment: function() {
+      var params = {
+        content: this.newComment.content,
+        post_id: this.post.post_id
+      };
+      var postId = this.post.post_id;
+      axios
+        .post("/api/comments", params)
+        .then(function(response) {
+          router.push("/posts/" + postId);
+        })
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    },
+    deleteComment: function(input_comment) {
+      var comment_id = input_comment.id;
+      var postId = this.post.post_id;
+
+      axios
+        .delete("/api/comments/" + comment_id)
+        .then(function(response) {
+          router.push("/posts/" + postId);
+        })
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    }
+
+  },
+  computed: {}
+};
+
+var PostsIndexPage = {
+  template: "#posts-index-page",
+  data: function() {
+    return {
+      posts: [],
+      search_term: ""
+    };
+  },
+  created: function() {
+    axios
+    .get("/api/posts")
+    .then(function(response) {
+      this.posts = response.data;
+    }.bind(this));
+  },
+  methods: {
+    searchIndex: function() {
+      // var params = {
+      //   search: search_term
+      // };
+      var search_term = this.search_term;
+      axios
+        .get("/api/posts?search=" + search_term)
+        .then(function(response) {
+          this.posts.push(response.data);
+        })
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    }
+  },
+  computed: {}
+};
+
+
+var HomePage = {
+  template: "#home-page",
+  data: function() {
+    return {
+      message: "Welcome to Vue.js!"
+    };
+  },
+  created: function() {},
+  methods: {},
+  computed: {}
+};
+
+var SignupPage = {
+  template: "#signup-page",
+  data: function() {
+    return {
+      name: "",
+      email: "",
+      password: "",
+      passwordConfirmation: "",
+      errors: []
+    };
+  },
+  methods: {
+    submit: function() {
+      var params = {
+        name: this.name,
+        email: this.email,
+        password: this.password,
+        password_confirmation: this.passwordConfirmation
+      };
+      axios
+        .post("/users", params)
+        .then(function(response) {
+          router.push("/login");
+        })
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    }
+  }
+};
+
+var LoginPage = {
+  template: "#login-page",
+  data: function() {
+    return {
+      email: "",
+      password: "",
+      errors: []
+    };
+  },
+  methods: {
+    submit: function() {
+      var params = {
+        auth: { email: this.email, password: this.password }
+      };
+      axios
+        .post("/user_token", params)
+        .then(function(response) {
+          axios.defaults.headers.common["Authorization"] =
+            "Bearer " + response.data.jwt;
+          localStorage.setItem("jwt", response.data.jwt);
+          router.push("/");
+        })
+        .catch(
+          function(error) {
+            this.errors = ["Invalid email or password."];
+            this.email = "";
+            this.password = "";
+          }.bind(this)
+        );
+    }
+  }
+};
+
+var LogoutPage = {
+  template: "<h1>Logout</h1>",
+  created: function() {
+    axios.defaults.headers.common["Authorization"] = undefined;
+    localStorage.removeItem("jwt");
+    router.push("/");
+  }
+};
+
+
+
+var router = new VueRouter({
+  routes: [
+          { path: "/", component: HomePage },
+          { path: "/signup", component: SignupPage},
+          { path: "/login", component: LoginPage },
+          { path: "/logout", component: LogoutPage },
+          { path: "/posts", component: PostsIndexPage },
+          { path: "/posts/new", component: PostsNewPage },
+          { path: "/posts/:id", component: PostsShowPage },
+          { path: "/posts/:id/edit", component: PostsEditPage },
+          { path: "/users/:id", component: UsersShowPage },
+          { path: "/users/:id/edit", component: UsersEditPage }
+
+          ],
+  scrollBehavior: function(to, from, savedPosition) {
+    return { x: 0, y: 0 };
+  }
+});
+
+var app = new Vue({
+  el: "#vue-app",
+  router: router,
+  created: function() {
+    var jwt = localStorage.getItem("jwt");
+    if (jwt) {
+      axios.defaults.headers.common["Authorization"] = jwt;
+    }
+  }
+});

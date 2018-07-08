@@ -8,6 +8,13 @@ class Post < ApplicationRecord
   has_many :tags, through: :post_tags
   has_many :images
 
+  has_attached_file :post_image
+    
+  validates_attachment :post_image,
+    content_type: {
+      content_type: ["image/jpeg", "image/gif", "image/png"]
+    }
+
   def show_tags
     tag_name_array = []
     tags.each do |tag|

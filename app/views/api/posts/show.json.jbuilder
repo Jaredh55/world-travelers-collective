@@ -13,6 +13,7 @@ json.votes @post.votes
 json.votecount @post.votes.count
 json.score @post.score
 json.current_user_id @current_user_id
+json.post_image @post.post_image
 # json.comments @post.comments
 
 json.comments do

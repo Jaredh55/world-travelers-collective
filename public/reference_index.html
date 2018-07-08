@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en" class="offcanvas-style-overtop">
+
+<head>
+  <title>Forum Homepage | AppStrap Bootstrap Theme by Themelize.me</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+  <!-- @todo: fill with your company info or remove -->
+  <meta name="description" content="">
+  <meta name="author" content="Themelize.me">
+
+  <!-- Bootstrap v4.1.1 CSS via CDN -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+
+  <!-- Plugins required on all pages NOTE: Additional non-required plugins are loaded ondemand as of AppStrap 2.5 -->
+
+  <!-- Theme style -->
+  <link href="assets/css/theme-style.min.css" rel="stylesheet">
+
+  <!-- Blue colour scheme -->
+  <link href="assets/css/colour-blue.min.css" rel="stylesheet">
+
+  <!--Your custom colour override-->
+  <link href="#" id="colour-scheme" rel="stylesheet">
+
+  <!-- Your custom override -->
+  <link href="assets/css/custom-style.css" rel="stylesheet">
+
+
+
+  <!-- Optional: ICON SETS -->
+  <!-- Iconset: Font Awesome 5.0.13 via CDN -->
+  <link href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" rel="stylesheet">
+  <!-- Iconset: flag icons - http://lipis.github.io/flag-icon-css/ -->
+  <link href="assets/plugins/flag-icon-css/css/flag-icon.min.css" rel="stylesheet">
+  <!-- Iconset: ionicons - http://ionicons.com/ -->
+  <link href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
+  <!-- Iconset: Linearicons - https://linearicons.com/free -->
+  <link href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css" rel="stylesheet">
+  <!-- Iconset: Lineawesome - https://icons8.com/articles/line-awesome -->
+  <link href="https://maxcdn.icons8.com/fonts/line-awesome/1.1/css/line-awesome.min.css" rel="stylesheet">
+
+
+  <!-- Le fav and touch icons - @todo: fill with your icons or remove, try https://realfavicongenerator.net -->
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/favicons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicons/favicon-16x16.png">
+  <link rel="manifest" href="assets/favicons/manifest.json">
+  <link rel="shortcut icon" href="assets/favicons/favicon.ico">
+  <meta name="msapplication-config" content="assets/favicons/browserconfig.xml">
+  <meta name="theme-color" content="#ffffff">
+
+
+  <!-- Google fonts -->
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Rambla:400,700' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Calligraffitti' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Roboto:100,400,700' rel='stylesheet' type='text/css'>
+
+  <!--Plugin: Retina.js (high def image replacement) - @see: http://retinajs.com/-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/retina.js/1.3.0/retina.min.js"></script>
+
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.js"></script>
+  <script src="index.js" defer></script>
+
+</head>
+
+<!-- ======== @Region: body ======== -->
+
+
+<body class="page header-ontop text-font-alt page-index-forum navbar-layout-default" data-colour-scheme="blue">
+
+  <div id="vue-app">
+  
+  <!-- @plugin: page loading indicator, delete to remove loader -->
+  <div class="page-loader" data-toggle="page-loader"></div>
+
+  <a id="#top" href="#content" class="sr-only">Skip to content</a>
+
+  <!-- ======== @Region: #header ======== -->
+  <div id="header">
+    <div data-toggle="sticky">
+
+      <!--Header & Branding region-->
+      <div class="header py-2 header-dark header-transparent border-light border-op-1 sticky-bg-op-8 sticky-bg-dark">
+        <!-- all direct children of the .header-inner element will be vertically aligned with each other you can override all the behaviours using the flexbox utilities (flexbox.html) All elements with .header-brand & .header-block-flex wrappers will automatically be aligned inline & vertically using flexbox, this can be overridden using the flexbox utilities (flexbox.htm) Use .header-block to stack elements within on small screen & "float" on larger screens use .order-first or/and .order-last classes to make an element show first or last within .header-inner or .headr-block elements -->
+        <div class="header-inner container">
+          <!--branding/logo -->
+          <div class="header-brand">
+            <a class="header-brand-text header-brand-text-sm text-white" href="index.html" title="Home">
+              <h1 class="h3 text-white font-weight-normal">
+                AppStrap
+              </h1>
+            </a>
+            <div class="header-divider d-none d-md-inline-block header-divider-sm"></div>
+            <div class="header-slogan font-weight-bold text-letter-spacing text-uppercase">Forum</div>
+          </div>
+
+          <div class="navbar">
+            <!--main navigation-->
+            <ul class="nav navbar-nav flex-row align-items-center">
+              <li class="nav-item d-none d-md-block"><a href="#" class="nav-link text-white text-sm px-2">Sign Up</a></li>
+              <li class="nav-item d-none d-md-block"><a href="#" class="nav-link text-white px-0"> / </a></li>
+              <li class="nav-item d-none d-md-block"><a href="#" class="nav-link text-white text-sm px-2 "> Sign In </a></li>
+              <li class="nav-item ml-lg-3">
+                <a href="#top" class="btn btn-light btn-icon btn-sm" data-toggle="off-canvas" data-target="#offcanvas" data-settings='{"cloneTarget":false, "modalClassExtras":"overlay overlay-light overlay-op-3 overlay-close-cursor"}'> <i class="lnr lnr-menu fa-1x"></i></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <router-view></router-view>
+
+<!--  -->
+
+  <!-- ======== @Region: #footer ======== -->
+  <footer id="footer" class="py-0 bg-dark bg-op-9 border-0">
+    <!-- Prefooter -->
+    <div class="bg-dark py-5">
+      <div class="container">
+        <div class="row">
+          <!-- Categories block -->
+          <div class="col-md-2 col-xs-12 mb-4 mb-md-0">
+            <h6 class="text-uppercase text-letter-spacing">
+              Categories
+            </h6>
+            <ul class="m-0 pl-3 text-sm">
+              <li> <a href="#" class="text-white op-7">Development</a> </li>
+              <li> <a href="#" class="text-white op-7">C++</a> </li>
+              <li> <a href="#" class="text-white op-7">Android</a> </li>
+              <li> <a href="#" class="text-white op-7">iOS</a> </li>
+              <li> <a href="#" class="text-white op-7">Bootstrap 4</a> </li>
+              <li> <a href="#" class="text-white op-7">AppStrap Theme</a> </li>
+              <li> <a href="#" class="text-white op-7">Wordpress</a> </li>
+              <li> <a href="#" class="text-white op-7">Drupal</a> </li>
+            </ul>
+          </div>
+          <!-- Latest posts -->
+          <div class="col-md-7 col-xs-12 mb-4 mb-md-0">
+            <h6 class="text-uppercase text-letter-spacing">
+              Latest posts
+            </h6>
+            <ul class="m-0 pl-3 text-sm">
+              <li class="mb-2"> <a href="#" class="text-white op-7">Custom shortcut or command to launch command in terminal?</a> </li>
+              <li class="mb-2"> <a href="#" class="text-white op-7">Bootstrap 4 development in record time with AppStrap Bootstrap 4 Theme</a> </li>
+              <li class="mb-2"> <a href="#" class="text-white op-7">Windows batch, recursively copy files</a> </li>
+              <li class="mb-2"> <a href="#" class="text-white op-7">HELP! My Windows XP machine is down</a> </li>
+              <li class="mb-2"> <a href="#" class="text-white op-7">Why Bootstrap 4 is so awesome?</a> </li>
+              <li class="mb-2"> <a href="#" class="text-white op-7">My first iOS app, feedback?</a> </li>
+            </ul>
+          </div>
+          <!-- Social media -->
+          <div class="col-md-3 col-xs-12">
+            <h6 class="text-uppercase text-letter-spacing">
+              Follow us
+            </h6>
+            <a href="#" class="btn btn-light btn-sm btn-icon border-0 bg-hover-brand-twitter text-hover-white"> <i class="fab fa-twitter"></i> </a>
+            <a href="#" class="btn btn-light btn-sm btn-icon border-0 bg-hover-brand-facebook text-hover-white"> <i class="fab fa-facebook-f"></i> </a>
+            <a href="#" class="btn btn-light btn-sm btn-icon border-0 bg-hover-brand-linkedin text-hover-white"> <i class="fab fa-linkedin-in"></i> </a>
+            <a href="#" class="btn btn-light btn-sm btn-icon border-0 bg-hover-brand-google-plus text-hover-white"> <i class="fab fa-google-plus-g"></i> </a>
+            <div class="mt-4">
+              <h6 class="text-uppercase text-letter-spacing">
+                Join us
+              </h6>
+              <a href="#" class="btn btn-light btn-bold text-uppercase text-letter-spacing text-sm"><i class="la la-user-plus"></i> Sign up</a>
+              <a href="#" class="btn btn-light btn-bold text-uppercase text-letter-spacing text-sm"> <i class="la la-user"></i> Login</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Footer lower -->
+    <div class="container text-lg-right py-3">
+      <p class="mb-0 text-sm text-white op-6"> &copy; 2018 AppStrap Bootstrap 4 Theme Forum</p>
+    </div>
+  </footer>
+  <!-- Forum off canvas menu: will be hidden automatically -->
+  <div id="offcanvas" class="bg-black">
+    <a class="js-offcanvas-close c-button c-button--close-right btn btn-sm btn-icon btn-link text-white pos-absolute pos-t pos-r mt-2 mr-2 op-7 pos-zindex-1 pos-zindex-fixed"> <i class="la la-close"></i> </a>
+    <div class="pos-relative p-3 px-lg-5 py-lg-6">
+      <h6 class="text-uppercase text-letter-spacing text-white op-8">
+        Latest posts
+      </h6>
+      <ul class="m-0 pl-3 text-sm">
+        <li class="mb-2 text-white op-9"> <a href="#" class="text-white op-7">Why Bootstrap 4 is so awesome?</a> </li>
+        <li class="mb-2 text-white op-9"> <a href="#" class="text-white op-7">HELP! My Windows XP machine is down</a> </li>
+        <li class="mb-2 text-white op-9"> <a href="#" class="text-white op-7">Custom shortcut or command to launch command in terminal?</a> </li>
+        <li class="mb-2 text-white op-9"> <a href="#" class="text-white op-7">My first iOS app, feedback?</a> </li>
+      </ul>
+      <hr class="my-4 hr-light op-3" />
+      <h6 class="text-uppercase text-letter-spacing text-white op-8">
+        Categories
+      </h6>
+      <ul class="m-0 pl-3 text-sm">
+        <li class="text-white op-9"> <a href="#" class="text-white op-7">Development</a> </li>
+        <li class="text-white op-9"> <a href="#" class="text-white op-7">C++</a> </li>
+        <li class="text-white op-9"> <a href="#" class="text-white op-7">Android</a> </li>
+        <li class="text-white op-9"> <a href="#" class="text-white op-7">iOS</a> </li>
+        <li class="text-white op-9"> <a href="#" class="text-white op-7">Bootstrap 4</a> </li>
+        <li class="text-white op-9"> <a href="#" class="text-white op-7">AppStrap Theme</a> </li>
+        <li class="text-white op-9"> <a href="#" class="text-white op-7">Wordpress</a> </li>
+        <li class="text-white op-9"> <a href="#" class="text-white op-7">Drupal</a> </li>
+      </ul>
+      <hr class="my-4 hr-light op-3" />
+      <a href="#" class="btn btn-light btn-bold text-uppercase text-letter-spacing text-sm btn-block mb-2"><i class="la la-user-plus"></i> Sign up</a>
+      <a href="#" class="btn btn-light btn-bold text-uppercase text-letter-spacing text-sm btn-block"> <i class="la la-user"></i> Login</a>
+    </div>
+  </div>
+
+  <!-- Style switcher - demo only - @todo: remove in production -->
+  <div class="colour-switcher">
+    <a href="#" class="colour-switcher-toggle" data-toggle="class" data-target=".colour-switcher"> <i class="fa fa-paint-brush"></i> </a>
+    <h5 class="text-uppercase my-0">
+      Theme Colours
+    </h5>
+    <hr />
+    <div class="theme-colours"> <a href="#green" class="green active" data-toggle="tooltip" data-placement="right" data-original-title="Green (Default)">Green</a> <a href="#red" class="red" data-toggle="tooltip" data-placement="right" data-original-title="Red">Red</a> <a href="#blue"
+        class="blue" data-toggle="tooltip" data-placement="right" data-original-title="Blue">Blue</a> <a href="#purple" class="purple" data-toggle="tooltip" data-placement="right" data-original-title="Purple">Purple</a> <a href="#pink" class="pink" data-toggle="tooltip"
+        data-placement="right" data-original-title="Pink">Pink</a> <a href="#orange" class="orange" data-toggle="tooltip" data-placement="right" data-original-title="Orange">Orange</a> <a href="#lime" class="lime" data-toggle="tooltip" data-placement="right"
+        data-original-title="Lime">Lime</a> <a href="#blue-dark" class="blue-dark" data-toggle="tooltip" data-placement="right" data-original-title="Blue-dark">Blue-dark</a> <a href="#red-dark" class="red-dark" data-toggle="tooltip" data-placement="right"
+        data-original-title="Red-dark">Red-dark</a> <a href="#brown" class="brown" data-toggle="tooltip" data-placement="right" data-original-title="Brown">Brown</a> <a href="#cyan-dark" class="cyan-dark" data-toggle="tooltip" data-placement="right" data-original-title="Cyan-dark">Cyan-dark</a>      <a href="#yellow" class="yellow" data-toggle="tooltip" data-placement="right" data-original-title="Yellow">Yellow</a> <a href="#slate" class="slate" data-toggle="tooltip" data-placement="right" data-original-title="Slate">Slate</a> <a href="#olive"
+        class="olive" data-toggle="tooltip" data-placement="right" data-original-title="Olive">Olive</a> <a href="#teal" class="teal" data-toggle="tooltip" data-placement="right" data-original-title="Teal">Teal</a> <a href="#green-bright" class="green-bright"
+        data-toggle="tooltip" data-placement="right" data-original-title="Green-bright">Green-bright</a> </div>
+    <hr />
+    <p class="text-xs text-muted">Cookies are NOT enabled so colour selection is not persistent.</p>
+    <p class="text-xs my-0"><a href="index.html">Back to main homepage</a></p>
+    <p class="text-xs my-0"><a href="intro.html">Back to intro page</a></p>
+  </div>
+  <!--Hidden elements - excluded from jPanel Menu on mobile-->
+  <div class="hidden-elements js-off-canvas-exclude"></div>
+
+  </div>
+
+
+  <!--jQuery 3.3.1 via CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!-- Popper 1.14.3 via CDN, needed for Bootstrap Tooltips & Popovers -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+
+  <!-- Bootstrap v4.1.1 JS via CDN -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+
+
+  <!-- JS plugins required on all pages NOTE: Additional non-required plugins are loaded ondemand as of AppStrap 2.5 To disable this and load plugin assets manually simple add data-plugins-manual=true to the body tag -->
+
+  <!--Custom scripts & AppStrap API integration -->
+  <script src="assets/js/custom-script.js"></script>
+  <!--AppStrap scripts mainly used to trigger libraries/plugins -->
+  <script src="assets/js/script.min.js"></script>
+</body>
+
+</html>
+
+<template id="home-page">
+  <div class="container">
+    <h1>{{ message }}</h1>
+  </div>
+</template>
+
+<template id="signup-page">
+  <div class="vue-component">
+
+    <div class="container">
+      <h1>Signup</h1>
+      <ul>
+        <li class="text-danger" v-for="error in errors">{{ error }}</li>
+      </ul>
+      <div class="form-group">
+        <label>Name:</label> 
+        <input type="text" class="form-control" v-model="name">
+      </div>
+      <div class="form-group">
+        <label>Email:</label>
+        <input type="email" class="form-control" v-model="email">
+      </div>
+      <div class="form-group">
+        <label>Password:</label>
+        <input type="password" class="form-control" v-model="password">
+      </div>
+      <div class="form-group">
+        <label>Password confirmation:</label>
+        <input type="password" class="form-control" v-model="passwordConfirmation">
+      </div>
+      <button class="btn btn-primary" v-on:click="submit()">Submit</button>
+    </div>
+
+  </div>
+</template>
