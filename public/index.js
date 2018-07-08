@@ -11,17 +11,74 @@ var UsersEditPage = {
         visits: "",
         posts: "",
         points: ""
+      },
+      newVisit: {
+        city: "",
+        country: ""
       }
     };
   },
   created: function() {
     axios
-    .patch("/users/" + this.$route.params.id )
-    .then(function(response) {
-      this.post = response.data;
-    }.bind(this));
+      .get("/users/" + this.$route.params.id )
+      .then(function(response) {
+        this.user = response.data;
+      }.bind(this));
   },
-  methods: {},
+  methods: {
+    submit: function() {
+      var userId = this.user.user_id;
+      var params = {
+        id: this.user.user_id,
+        email: this.user.email,
+        bio: this.user.bio
+      };
+      axios
+        .patch("/users/" + this.$route.params.id, params)
+        .then(function(response) {
+          router.push("/users/" + userId);
+        })
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    },
+    addVisit: function() {
+      var params = {
+        city: this.newVisit.city,
+        country: this.newVisit.country,
+      };
+      var user_id = this.user.user_id;
+
+
+      axios
+        .post("/api/visits", params)
+        .then(function(response) {
+          router.push("/users/" + user_id);
+        })
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    },
+    removeVisit: function(visit) {
+      var visit_id = visit.id;
+      var user_id = this.user.user_id;
+
+      axios
+        .delete("/api/visits/" + visit_id)
+        .then(function(response) {
+          router.push("/users/" + user_id);
+        })
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    } 
+  },
   computed: {}
 };
 
@@ -69,16 +126,17 @@ var PostsEditPage = {
         longitude: "",
         visit_id: "",
         city: "",
-        tags: ""
+        tags: "",
+        show_tags: ""
+      },
+      new_post: {
+        edited_title: "",
+        edited_content: "",
+        edited_latitude: "",
+        edited_longitude: "",
+        edited_city: "",
+        edited_tags: ""
       }
-      // edited_post: {
-      //   edited_title: "",
-      //   edited_content: "",
-      //   edited_latitude: "",
-      //   edited_longitude: "",
-      //   edited_city: "",
-      //   edited_tags: ""
-      // }
     };
   },
   created: function() {
@@ -90,19 +148,20 @@ var PostsEditPage = {
   },
   methods: {
     submit: function() {
+      var postId = this.post.post_id;
       var params = {
-        title: this.title,
-        content: this.content,
-        latitude: this.latitude,
-        longitude: this.longitude,
-        city: this.city,
-        tags: this.tags
-
+        id: this.post.post_id,
+        title: this.post.title,
+        content: this.post.content,
+        latitude: this.post.latitude,
+        longitude: this.post.longitude,
+        city: this.post.city,
+        tags: this.post.show_tags
       };
       axios
         .patch("/api/posts/" + this.$route.params.id, params)
         .then(function(response) {
-          router.push("/posts");
+          router.push("/posts/" + postId);
         })
         .catch(
           function(error) {
@@ -194,7 +253,10 @@ var PostsShowPage = {
         visit_id: "",
         post_image: "",
         created_at: "",
-        updated_at: ""
+        updated_at: "",
+        // comments: [{votecount: "", score: "", id: ""}],
+        score: "",
+        votecount: ""
       },
       newVote: {
         votable_id: "",
@@ -209,48 +271,33 @@ var PostsShowPage = {
   },
   created: function() {
     axios
-    .get("/api/posts/" + this.$route.params.id )
-    .then(function(response) {
-      this.post = response.data;
-    }.bind(this));
+      .get("/api/posts/" + this.$route.params.id )
+      .then(function(response) {
+        this.post = response.data;
+      }.bind(this));
   },
   methods: {
-    upvotePost: function() {
+    votePost: function(value) {
       var params = {
         votable_id: this.post.post_id,
         votable_type: "Post",
-        positive: "positive"
+        positive: value
       };
-      var postId = this.post.post_id;
+      // var postId = this.post.post_id;
       axios
         .post("/api/votes", params)
         .then(function(response) {
-          router.push("/posts/" + postId);
-        })
+          this.post.score = response.data.score;
+          this.post.votecount = response.data.votecount;
+          // router.push("/posts/" + postId);
+        }.bind(this))
         .catch(
           function(error) {
             this.errors = error.response.data.errors;
           }.bind(this)
         );
     },
-    downvotePost: function() {
-      var params = {
-        votable_id: this.post.post_id,
-        votable_type: "Post",
-        positive: "false"
-      };
-      var postId = this.post.post_id;
-      axios
-        .post("/api/votes", params)
-        .then(function(response) {
-          router.push("/posts/" + postId);
-        })
-        .catch(
-          function(error) {
-            this.errors = error.response.data.errors;
-          }.bind(this)
-        );
-    },
+
     removePostVote: function() {
       var postId = this.post.post_id;
 
@@ -264,6 +311,14 @@ var PostsShowPage = {
             this.errors = error.response.data.errors;
           }.bind(this)
         );
+      axios
+        .get("/api/posts/" + postId)
+        .then(function(response) {
+          this.post.score = response.data.score;
+          this.post.votecount = response.data.votecount;
+          // router.push("/posts/" + postId);
+        }.bind(this));
+
     },
     removeCommentVote: function(input_comment) {
       var comment_id = input_comment.id;
@@ -271,9 +326,34 @@ var PostsShowPage = {
 
       axios
         .delete("/api/votes/" + comment_id + "?votable_type=Comment")
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+      axios
+        .get("/api/posts/" + postId)
         .then(function(response) {
-          router.push("/posts/" + postId);
-        })
+          this.post.score = response.data.score;
+          this.post.votecount = response.data.votecount;
+          // router.push("/posts/" + postId);
+        }.bind(this))
+    },
+    voteComment: function(input_comment, positive) {
+      var params = {
+        votable_id: input_comment.id,
+        votable_type: "Comment",
+        positive: positive
+      };
+      var comment_id = input_comment.id;
+      
+      axios
+        .post("/api/votes", params)
+        .then(function(response) {
+          this.post.comments.score = response.data.score;
+          this.post.comment.votecount = response.data.votecount;
+          // router.push("/posts/" + postId);
+        }.bind(this))
         .catch(
           function(error) {
             this.errors = error.response.data.errors;
