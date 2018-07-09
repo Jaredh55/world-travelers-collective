@@ -6,7 +6,10 @@ class Api::CommentsController < ApplicationController
                           content: params[:content]
                           )
 
-    @comment.save
+    if @comment.save
+      @post = @comment.post
+      render "api/posts/show.json.jbuilder"
+    end
     # Rails.logger.info(@vote.errors.inspect) 
   end
 

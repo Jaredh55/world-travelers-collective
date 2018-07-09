@@ -254,7 +254,7 @@ var PostsShowPage = {
         post_image: "",
         created_at: "",
         updated_at: "",
-        // comments: [{votecount: "", score: "", id: ""}],
+        comments: [{votecount: "", score: "", id: ""}],
         score: "",
         votecount: ""
       },
@@ -320,6 +320,28 @@ var PostsShowPage = {
         }.bind(this));
 
     },
+    voteComment: function(input_comment, positive) {
+      var params = {
+        votable_id: input_comment.id,
+        votable_type: "Comment",
+        positive: positive
+      };
+      var comment_id = input_comment.id;
+      
+      axios
+        .post("/api/votes", params)
+        .then(function(response) {
+          this.post.comments = response.data.comments;
+          // this.post.comments.score = response.data.score;
+          // this.post.comment.votecount = response.data.votecount;
+          // router.push("/posts/" + postId);
+        }.bind(this))
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    },
     removeCommentVote: function(input_comment) {
       var comment_id = input_comment.id;
       var postId = this.post.post_id;
@@ -334,67 +356,10 @@ var PostsShowPage = {
       axios
         .get("/api/posts/" + postId)
         .then(function(response) {
-          this.post.score = response.data.score;
-          this.post.votecount = response.data.votecount;
+          this.post.comments = response.data.comments;
+          // this.post.votecount = response.data.votecount;
           // router.push("/posts/" + postId);
-        }.bind(this))
-    },
-    voteComment: function(input_comment, positive) {
-      var params = {
-        votable_id: input_comment.id,
-        votable_type: "Comment",
-        positive: positive
-      };
-      var comment_id = input_comment.id;
-      
-      axios
-        .post("/api/votes", params)
-        .then(function(response) {
-          this.post.comments.score = response.data.score;
-          this.post.comment.votecount = response.data.votecount;
-          // router.push("/posts/" + postId);
-        }.bind(this))
-        .catch(
-          function(error) {
-            this.errors = error.response.data.errors;
-          }.bind(this)
-        );
-    },
-    upvoteComment: function(input_comment) {
-      var params = {
-        votable_id: input_comment.id,
-        votable_type: "Comment",
-        positive: "true"
-      };
-      var postId = this.post.post_id;
-      axios
-        .post("/api/votes", params)
-        .then(function(response) {
-          router.push("/posts/" + postId);
-        })
-        .catch(
-          function(error) {
-            this.errors = error.response.data.errors;
-          }.bind(this)
-        );
-    },
-    downvoteComment: function(input_comment) {
-      var params = {
-        votable_id: input_comment.id,
-        votable_type: "Comment",
-        positive: "false"
-      };
-      var postId = this.post.post_id;
-      axios
-        .post("/api/votes", params)
-        .then(function(response) {
-          router.push("/posts/" + postId);
-        })
-        .catch(
-          function(error) {
-            this.errors = error.response.data.errors;
-          }.bind(this)
-        );
+        }.bind(this));
     },
     addComment: function() {
       var params = {
@@ -405,8 +370,9 @@ var PostsShowPage = {
       axios
         .post("/api/comments", params)
         .then(function(response) {
-          router.push("/posts/" + postId);
-        })
+          // router.push("/posts/" + postId);
+          this.post.comments = response.data.comments;
+        }.bind(this))
         .catch(
           function(error) {
             this.errors = error.response.data.errors;
@@ -427,6 +393,13 @@ var PostsShowPage = {
             this.errors = error.response.data.errors;
           }.bind(this)
         );
+      axios
+        .get("/api/posts/" + postId)
+        .then(function(response) {
+          this.post.comments = response.data.comments;
+          // this.post.votecount = response.data.votecount;
+          // router.push("/posts/" + postId);
+        }.bind(this));
     }
 
   },
@@ -437,34 +410,38 @@ var PostsIndexPage = {
   template: "#posts-index-page",
   data: function() {
     return {
-      posts: [],
-      search_term: ""
+      posts: [{title: ""}],
+      searchTerm: ""
     };
   },
   created: function() {
     axios
-    .get("/api/posts")
-    .then(function(response) {
-      this.posts = response.data;
-    }.bind(this));
+      .get("/api/posts")
+      .then(function(response) {
+        this.posts = response.data;
+      }.bind(this));
   },
   methods: {
-    searchIndex: function() {
+    searchPosts: function() {
       // var params = {
       //   search: search_term
       // };
-      var search_term = this.search_term;
+      var searchTerm = this.searchTerm;
       axios
-        .get("/api/posts?search=" + search_term)
+        .get("/api/posts?search=" + searchTerm)
         .then(function(response) {
-          this.posts.push(response.data);
-        })
+          this.posts = response.data;
+        }.bind(this))
         .catch(
           function(error) {
             this.errors = error.response.data.errors;
           }.bind(this)
         );
     }
+    // isValidPost: function(input_post) {
+    //   var searchTerm = this.searchTerm;
+    //   input_post.title.includes(searchTerm);
+    // }
   },
   computed: {}
 };
