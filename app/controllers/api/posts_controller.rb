@@ -8,41 +8,49 @@ class Api::PostsController < ApplicationController
     # location_search_term = params[:location]
 
     if search_term
-      capitalize_search_term = params[:search].downcase.capitalize
+      capitalize_search_term = params[:search].downcase.titleize
       lowercase_search_term = params[:search].downcase
+      temp_posts = []
       if city = City.find_by(name: search_term)
-        @posts = city.posts
-      elsif city = City.find_by(name: capitalize_search_term)
-        @posts = city.posts
-      elsif country = Country.find_by(name: capitalize_search_term)
-        @posts = country.posts.first
-      elsif tag = Tag.find_by(name: lowercase_search_term)
-        @posts = tag.posts
-      else
+        temp_posts = temp_posts + city.posts
+      end
+      if city = City.find_by(name: capitalize_search_term)
+        temp_posts = temp_posts + city.posts
+      end
+      if country = Country.find_by(name: capitalize_search_term)
+        temp_posts = temp_posts + country.posts.first
+      end
+      if tag = Tag.find_by(name: lowercase_search_term)
+        temp_posts = temp_posts + tag.posts
+      end
 
-      @posts = @posts.where("title iLIKE ? OR content iLIKE ?", "%#{search_term}%", "%#{search_term}%")
-      end 
+      if title_content = @posts.where("title iLIKE ? OR content iLIKE ?", "%#{search_term}%", "%#{search_term}%")
+        temp_posts = temp_posts + title_content
+      end
+
+      @posts = temp_posts
+
     end
 
-    sort_attribute = params[:sort_by]
-    sort_order = params[:sort_order]
+    # sort_attribute = params[:sort_by]
+    # sort_order = params[:sort_order]
 
-    if sort_attribute == "score" && sort_order == "asc"
-      @posts = @posts.sort_by_score_asc
-    elsif sort_attribute == "score" && sort_order == "desc"
-      @posts = @posts.sort_by_score_desc
-    elsif sort_attribute == "created_at" && sort_order == "asc"
-      @posts = @posts.order(sort_attribute => sort_order)
-    elsif sort_attribute == "created_at" && sort_order == "desc"
-      @posts = @posts.order(sort_attribute => :desc)
+    # if sort_attribute == "score" && sort_order == "asc"
+    #   @posts = @posts.sort_by_score_asc
+    # elsif sort_attribute == "score" && sort_order == "desc"
+    #   @posts = @posts.sort_by_score_desc
+    # elsif sort_attribute == "created_at" && sort_order == "asc"
+    #   @posts = @posts.order(sort_attribute => sort_order)
+    # elsif sort_attribute == "created_at" && sort_order == "desc"
+    #   @posts = @posts.order(sort_attribute => :desc)
 
     # elsif sort_attribute && sort_order
     #   @posts = @posts.order(sort_attribute => sort_order)
     # elsif sort_attribute
     #   @posts = @posts.order(sort_attribute => :asc)
-    else
-      @posts = @posts.sort_by_score_desc
-    end
+    # else
+    #   @posts = @posts.sort_by_score_desc
+    # end
 
     # if sort_attribute == "votes"
     #   @posts = Post.left_joins(:votes).group(:id).order('COUNT(votes.id) DESC')

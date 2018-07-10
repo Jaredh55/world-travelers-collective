@@ -477,13 +477,8 @@ var PostsIndexPage = {
   computed: {
     sortedPosts: function() {
       return this.posts.sort(function(post1, post2) {
-        if (this.sortAttribute === 'score') {
-          var lowerAttribute1 = String(post1[this.sortAttribute]);
-          var lowerAttribute2 = String(post2[this.sortAttribute]);
-        } else {
-          var lowerAttribute1 = post1[this.sortAttribute].toLowerCase();
-          var lowerAttribute2 = post2[this.sortAttribute].toLowerCase();
-        }
+        var lowerAttribute1 = String(post1[this.sortAttribute]).toLowerCase();
+        var lowerAttribute2 = String(post2[this.sortAttribute]).toLowerCase();
 
         if (this.sortAscending) {
           return lowerAttribute1.localeCompare(lowerAttribute2);
