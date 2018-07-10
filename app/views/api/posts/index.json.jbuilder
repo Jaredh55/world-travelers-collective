@@ -13,5 +13,7 @@ json.array!@posts.each do |post|
   json.votes post.votes
   json.votecount post.votes.count
   json.score post.score
+  json.commentcount post.comments.count
+  json.created_at post.created_at
 end
 

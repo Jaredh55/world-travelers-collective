@@ -410,8 +410,13 @@ var PostsIndexPage = {
   template: "#posts-index-page",
   data: function() {
     return {
-      posts: [{title: ""}],
-      searchTerm: ""
+      posts: [],
+      searchTerm: "",
+      sort_attribute: "",
+      sort_order: "",
+      sortAttribute: "created_at",
+      sortAscending: true,
+      selected: ""
     };
   },
   created: function() {
@@ -437,13 +442,58 @@ var PostsIndexPage = {
             this.errors = error.response.data.errors;
           }.bind(this)
         );
+    },
+    sortPosts: function(order, attribute) {
+      // var params = {
+      //   sort_order: order,
+      //   sort_by: attribute
+      // };
+      axios
+        .get("/api/posts?sort_by=" + attribute + "&&sort_order=" + order)
+        // .get("/api/posts", params)
+        .then(function(response) {
+          this.posts = response.data;
+        }.bind(this))
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    },
+    setAttribute: function(inputAttribute) {
+      if (this.sortAttribute === inputAttribute) {
+        this.sortAscending = !this.sortAscending;
+      } else {
+        this.sortAscending = true;
+      }
+          
+      this.sortAttribute = inputAttribute;
     }
     // isValidPost: function(input_post) {
     //   var searchTerm = this.searchTerm;
     //   input_post.title.includes(searchTerm);
     // }
   },
-  computed: {}
+  computed: {
+    sortedPosts: function() {
+      return this.posts.sort(function(post1, post2) {
+        if (this.sortAttribute === 'score') {
+          var lowerAttribute1 = String(post1[this.sortAttribute]);
+          var lowerAttribute2 = String(post2[this.sortAttribute]);
+        } else {
+          var lowerAttribute1 = post1[this.sortAttribute].toLowerCase();
+          var lowerAttribute2 = post2[this.sortAttribute].toLowerCase();
+        }
+
+        if (this.sortAscending) {
+          return lowerAttribute1.localeCompare(lowerAttribute2);
+        } else {
+          return lowerAttribute2.localeCompare(lowerAttribute1);
+        }
+
+      }.bind(this));
+    }
+  }
 };
 
 

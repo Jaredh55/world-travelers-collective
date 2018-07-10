@@ -12,6 +12,7 @@ json.show_tags @post.show_tags
 json.votes @post.votes
 json.votecount @post.votes.count
 json.score @post.score
+# json.commentcount @post.comments.count
 json.current_user_id @current_user_id
 json.post_image @post.post_image
 # json.comments @post.comments

@@ -94,7 +94,7 @@
           <div class="header-brand">
             <a class="header-brand-text header-brand-text-sm text-white" href="index.html" title="Home">
               <h1 class="h3 text-white font-weight-normal">
-                WTC
+                <img src="http://icons.iconarchive.com/icons/dtafalonso/modern-xp/72/ModernXP-73-Globe-icon.png" alt="">WTC
               </h1>
             </a>
             <div class="header-divider d-none d-md-inline-block header-divider-sm"></div>
@@ -104,7 +104,7 @@
           <div class="navbar">
             <!--main navigation-->
             <ul class="nav navbar-nav flex-row align-items-center">
-              <li  class="nav-item d-none d-md-block"><a href="/#/posts/new" class="nav-link text-white px-0"> New Post </a></li>
+              <li  class="nav-item d-none d-md-block"><a href="/#/posts/new" class="nav-link text-white px-0"> New Post  </a> </li>
 
               <li class="nav-item d-none d-md-block"><a href="/#/posts" class="nav-link text-white px-0"> Home </a></li>
               <li class="nav-item d-none d-md-block"><a href="/#/signup" class="nav-link text-white text-sm px-2">Sign Up</a></li>
@@ -348,7 +348,7 @@
                       <button v-on:click="searchPosts()" type="submit" class="border-0 btn-block btn-lg pr-0 outline-0 bg-transparent"><i class="ion-android-search icon-1x op-5"></i></button>
                     </span>
                 </div>
-                <input type="search" v-model="searchTerm" class="form-control bg-grey border-0 outline-0 font-italic" placeholder="Search ..."/>
+                <input type="search" v-model="searchTerm" v-on:keyup.enter="searchPosts()" class="form-control bg-grey border-0 outline-0 font-italic" placeholder="Search ..."/>
               </div>
             </form>
           </div>
@@ -361,6 +361,53 @@
       <br>
       <br>
       <br>
+
+      <div class="col-lg-12 mb-3">
+                  
+                 <ul>
+                   <li>
+                     Sort By
+                     <ul>
+                       <li><a v-on:click="sortPosts('asc', 'score')">Score - Low to High</a></li>
+                       <li><a v-on:click="sortPosts('desc', 'score')">Score - High to Low</a></li>
+                       <li><a v-on:click="sortPosts('asc', 'created_at')">Oldest </a></li>
+                       <li><a v-on:click="sortPosts('desc', 'created_at')"> Newest </a></li>
+                     </ul>
+                   </li>
+                 </ul>
+
+                <div>
+                   <button v-on:click="setAttribute('created_at')">Newest First</button>
+                   <button v-on:click="setAttribute('score')">Sort by Score </button>
+                 </div>
+                <!-- End of post 1 -->
+                <div v-for="post in sortedPosts" class="card row-hover pos-relative py-3 px-3 mb-3 border-danger border-top-0 border-right-0 border-bottom-0 rounded-0">
+                  <div class="row align-items-center">
+                    <div class="col-md-8 mb-3 mb-sm-0">
+                      <h5>
+                        <a v-bind:href="'/#/posts/' + post.post_id" class="text-primary">{{post.title}}</a>
+                      </h5>
+                      <p class="text-sm"><span class="op-6">Posted</span> <a class="text-black" href="#">{{post.created_at}}</a> <span class="op-6"> by</span> <a class="text-black" v-bind:href="'/#/users/' + post.user.id">{{post.user.email}}</a></p>
+                      <div><p class="text-sm">
+                        {{post.city.name}}, {{post.country.name}}
+                        </p>
+                      </div>
+                      <div class="text-sm op-5"> <a v-for="tag in post.tags" class="text-black mr-2" href="#">{{tag.name}}</a> </div>
+                    </div>
+                    <div class="col-md-4 op-7">
+                      <div class="row text-center op-7">
+                        <div class="col px-1"> <i class="ion-connection-bars icon-1x"></i> <span class="d-block text-sm">Score: {{post.score}}</span> </div>
+                        <div class="col px-1"> <i class="ion-ios-eye-outline icon-1x"></i> <span class="d-block text-sm">{{post.votecount}} Votes </span> </div>
+                        <div class="col px-1"> <i class="ion-ios-chatboxes-outline icon-1x"></i> <span class="d-block text-sm">{{post.commentcount}} Replys</span> 
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- /End of post 1 -->
+                <!-- Online users -->
+ 
+              </div>
 
       <div class="row">
           <div v-for="post in posts" class="col-md-4">
@@ -391,6 +438,7 @@
   <div class="vue-component">
     
     <div class="container">
+      <br>
       <br>
       <br>
       <br>
@@ -444,6 +492,9 @@
 
       <a v-if="post.current_user_id === post.user.id" v-bind:href="'/#/posts/' + post['post_id'] + '/edit'">Edit</a>
       <a v-if="post.current_user_id === post.user.id" v-bind:href="'/#/posts/' + post['post_id']" data-method="delete">Delete</a>
+
+      <br>
+      <br>
     </div>
   
   </div>
@@ -550,6 +601,7 @@
       <br>
       <br>
       <br>
+      <br>
 
       <h2>{{ user.email }}</h2>
       <h4>Bio: {{ user.bio }}</h4>
@@ -630,6 +682,9 @@
           Country: <input type="text" v-model="newVisit.country">
           <button clsss="btn btn-primary" v-on:click="addVisit()"> Add Visit </button>
         </form>
+
+      <br>
+      <br>
 
     </div>
 

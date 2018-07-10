@@ -1,9 +1,11 @@
 class Api::VisitsController < ApplicationController
   def create
-    visited_country = Country.find_or_create_by(name: params[:country])
+    country_name = params[:country].downcase.capitalize
+    visited_country = Country.find_or_create_by(name: country_name)
     visited_country_id = visited_country.id
 
-    visited_city = City.find_or_create_by(name: params[:city], country_id: visited_country_id)
+    city_name = params[:city].downcase.capitalize
+    visited_city = City.find_or_create_by(name: city_name, country_id: visited_country_id)
 
     visited_city_id = visited_city.id
 

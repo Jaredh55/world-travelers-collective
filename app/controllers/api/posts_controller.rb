@@ -4,16 +4,24 @@ class Api::PostsController < ApplicationController
     @posts = Post.all
 
     search_term = params[:search]
+
+    # location_search_term = params[:location]
+
     if search_term
+      capitalize_search_term = params[:search].downcase.capitalize
+      lowercase_search_term = params[:search].downcase
+      if city = City.find_by(name: search_term)
+        @posts = city.posts
+      elsif city = City.find_by(name: capitalize_search_term)
+        @posts = city.posts
+      elsif country = Country.find_by(name: capitalize_search_term)
+        @posts = country.posts.first
+      elsif tag = Tag.find_by(name: lowercase_search_term)
+        @posts = tag.posts
+      else
 
-      # @posts.where("title iLIKE ? OR content iLIKE ?", "%#{search_term}%", "%#{search_term}%")
-
-      # # temp_posts<< @post.visit.city.where("name iLIKE ?", "%#{search_term}%")
-
-      # # temp_posts<< @post.visit.city.country.where("name iLIKE ?", "%#{search_term}%")
-
-      # @posts = temp_posts
       @posts = @posts.where("title iLIKE ? OR content iLIKE ?", "%#{search_term}%", "%#{search_term}%")
+      end 
     end
 
     sort_attribute = params[:sort_by]
@@ -75,12 +83,13 @@ class Api::PostsController < ApplicationController
                             )
 
         if @post.save
-
-            input_tags = params[:tags]
+            if params[:tags]
+            input_tags = params[:tags].downcase
             split_tags = input_tags.split(', ')
-            split_tags.each do |tag|
-              input_tag = Tag.find_or_create_by(name: tag)
-              post_tag = PostTag.create(post_id: @post.id, tag_id: input_tag.id)
+              split_tags.each do |tag|
+                input_tag = Tag.find_or_create_by(name: tag)
+                post_tag = PostTag.create(post_id: @post.id, tag_id: input_tag.id)
+              end
             end
 
           render 'show.json.jbuilder'
