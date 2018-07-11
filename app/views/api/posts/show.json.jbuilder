@@ -15,6 +15,10 @@ json.score @post.score
 # json.commentcount @post.comments.count
 json.current_user_id @current_user_id
 json.post_image @post.post_image
+json.post_image_medium @post.post_image.url(:medium)
+json.post_image_square @post.post_image.url(:square)
+json.post_image_thumb @post.post_image.url(:thumb)
+
 # json.comments @post.comments
 
 json.comments do

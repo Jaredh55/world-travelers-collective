@@ -34,6 +34,7 @@ class UsersController < ApplicationController
 
       @user.email = params[:email] || @user.email
       @user.bio = params[:bio] || @user.bio
+      @user.user_image = params[:user_image] || @user.user_image
       
       if @user.save
       render 'show.json.jbuilder'

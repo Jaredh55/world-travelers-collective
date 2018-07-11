@@ -87,12 +87,12 @@
     <div>
 
       <!--Header & Branding region-->
-      <div class="header py-1 header-dark border-light border-op-1">
+      <div class="header py-1 header-dark border-dark border-op-1">
         <!-- all direct children of the .header-inner element will be vertically aligned with each other you can override all the behaviours using the flexbox utilities (flexbox.html) All elements with .header-brand & .header-block-flex wrappers will automatically be aligned inline & vertically using flexbox, this can be overridden using the flexbox utilities (flexbox.htm) Use .header-block to stack elements within on small screen & "float" on larger screens use .order-first or/and .order-last classes to make an element show first or last within .header-inner or .headr-block elements -->
         <div class="header-inner container">
           <!--branding/logo -->
           <div class="header-brand">
-            <a class="header-brand-text header-brand-text-sm text-white" href="index.html" title="Home">
+            <a class="header-brand-text header-brand-text-sm text-white" href="/#/posts" title="Home">
               <h1 class="h3 text-white font-weight-normal">
                 <img src="http://icons.iconarchive.com/icons/dtafalonso/modern-xp/72/ModernXP-73-Globe-icon.png" alt="">WTC
               </h1>
@@ -104,9 +104,9 @@
           <div class="navbar">
             <!--main navigation-->
             <ul class="nav navbar-nav flex-row align-items-center">
-              <li  class="nav-item d-none d-md-block"><a href="/#/posts/new" class="nav-link text-white px-0"> New Post  </a> </li>
+              <li  class="nav-item d-none d-md-block"><a href="/#/posts/new" class="nav-link text-white font-weight-normal px-2"> New Post  </a> </li>
 
-              <li class="nav-item d-none d-md-block"><a href="/#/posts" class="nav-link text-white px-0"> Home </a></li>
+              <li class="nav-item d-none d-md-block"><a href="/#/posts" class="nav-link text-white px-2"> Home </a></li>
               <li class="nav-item d-none d-md-block"><a href="/#/signup" class="nav-link text-white text-sm px-2">Sign Up</a></li>
               <li class="nav-item d-none d-md-block"><a href="/#/login" class="nav-link text-white text-sm px-2 "> Log In </a></li>
               <li class="nav-item d-none d-md-block"><a href="/#/logout" class="nav-link text-white text-sm px-2 "> Logout </a></li>
@@ -338,7 +338,7 @@
         <div data-toggle="sticky" data-settings='{"persist":true,"breakpoint":992}' class="pos-t-auto">
           <div class="container pt-6 text-center" data-scroll="scrollax">
             <h2 class="display-4 text-white mb-0 w-100 w-lg-50 mx-auto font-weight-bold" data-animate="fadeIn" data-animate-delay="0.2">
-              Learn, Share, Build
+              Where to?
             </h2>
             <p class="text-white lead w-100 w-lg-60 mx-auto mb-md-6"> Travel advice from people around the world </p>
             <form class="row mb-2 w-100 w-lg-70 align-items-center mx-auto" data-animate="fadeIn" data-animate-delay="0.4">
@@ -383,6 +383,7 @@
                 <!-- End of post 1 -->
                 <div v-for="post in sortedPosts" class="card row-hover pos-relative py-3 px-3 mb-3 border-danger border-top-0 border-right-0 border-bottom-0 rounded-0">
                   <div class="row align-items-center">
+                      
                     <div class="col-md-8 mb-3 mb-sm-0">
                       <h5>
                         <a v-bind:href="'/#/posts/' + post.post_id" class="text-primary">{{post.title}}</a>
@@ -393,13 +394,20 @@
                         </p>
                       </div>
                       <div class="text-sm op-5"> <a v-for="tag in post.tags" class="text-black mr-2" href="#">{{tag.name}}</a> </div>
+                      <img v-bind:src="post.post_image_medium">
+                      <!-- <img v-bind:src="post.post_image_thumb"> -->
+                      <!-- <img v-bind:src="post.post_image_square"> -->
+
                     </div>
+
                     <div class="col-md-4 op-7">
                       <div class="row text-center op-7">
+
                         <div class="col px-1"> <i class="ion-connection-bars icon-1x"></i> <span class="d-block text-sm">Score: {{post.score}}</span> </div>
                         <div class="col px-1"> <i class="ion-ios-eye-outline icon-1x"></i> <span class="d-block text-sm">{{post.votecount}} Votes </span> </div>
                         <div class="col px-1"> <i class="ion-ios-chatboxes-outline icon-1x"></i> <span class="d-block text-sm">{{post.commentcount}} Replys</span> 
                         </div>
+                          
                       </div>
                     </div>
                   </div>
@@ -453,15 +461,19 @@
       <h4>Country: {{ post["country"]["name"] }}</h4>
       <h4>Tags: {{ post["show_tags"] }}</h4>
       <h4>Image: </h4>
-      <img v-bind:src="post['post_image']">
+      <img v-bind:src="post.post_image_medium">
+      <!-- <img v-bind:src="post.post_image_square"> -->
+      <!-- <img v-bind:src="post.post_image_thumb"> -->
+
+      <!-- {{post.post_image_square}} -->
       <h4>Votes: {{ post["votecount"] }}</h4>
       <h4>Score: {{ post["score"] }}</h4>
 
-      <button class="btn btn-primary" v-on:click="votePost(true)">Upvote</button>
+      <button v-if="post.current_user_id !== post.user.id" class="btn btn-primary" v-on:click="votePost(true)">Upvote</button>
 
-      <button class="btn btn-primary" v-on:click="votePost(false)">Downvote</button>
+      <button v-if="post.current_user_id !== post.user.id" class="btn btn-primary" v-on:click="votePost(false)">Downvote</button>
 
-      <button class="btn btn-primary" v-on:click="removePostVote()">Remove vote</button>
+      <button v-if="post.current_user_id !== post.user.id" class="btn btn-primary" v-on:click="removePostVote()">Remove vote</button>
 
 
       <h4>Comments: </h4> 
@@ -472,11 +484,11 @@
               Votes: {{ comment["votecount"] }}
               Score: {{ comment["score"] }}
 
-            <button class="btn btn-primary" v-on:click="voteComment(comment, true)">Upvote</button>
+            <button v-if="post.current_user_id !== comment.user_id" class="btn btn-primary" v-on:click="voteComment(comment, true)">Upvote</button>
             
-            <button class="btn btn-primary" v-on:click="voteComment(comment, false)">Downvote</button>
+            <button v-if="post.current_user_id !== comment.user_id" class="btn btn-primary" v-on:click="voteComment(comment, false)">Downvote</button>
 
-            <button class="btn btn-primary" v-on:click="removeCommentVote(comment)">Remove vote</button>
+            <button v-if="post.current_user_id !== comment.user_id" class="btn btn-primary" v-on:click="removeCommentVote(comment)">Remove vote</button>
 
             <button v-if="post.current_user_id === comment.user_id" class="btn btn-primary" v-on:click="deleteComment(comment)">DeleteComment</button>
           </li>
@@ -605,7 +617,9 @@
 
       <h2>{{ user.email }}</h2>
       <h4>Bio: {{ user.bio }}</h4>
-      <h4>User ID: {{ user.user_id }}</h4>
+      <h4>Picture: </h4>
+      <img v-bind:src="user.user_image_small">
+  
       <h4>Visits: </h4>
       <ul>
         <div v-for= "visit in user.visits">
@@ -662,6 +676,11 @@
           <label>Bio:</label>
           <input v-if="user.current_user_id === user.user_id" type="text" v-model="user.bio">
         </div>
+
+        <div class="form-group">
+          Profile Picture: <input type="file" v-on:change="uploadPic($event)">
+        </div>
+
         <button v-if="user.current_user_id === user.user_id" class="btn btn-primary" v-on:click="submit()">Update Profile</button>
       </form>
 

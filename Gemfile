@@ -22,6 +22,12 @@ gem 'knock'
 
 gem 'paperclip'
 
+gem 'aws-sdk-s3'
+
+# gem 'aws-sdk', '~> 2.6'
+
+gem 'figaro'
+
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production

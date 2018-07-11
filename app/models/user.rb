@@ -6,6 +6,17 @@ class User < ApplicationRecord
   has_many :votes
   has_many :comments
 
+  has_attached_file :user_image, styles: {
+    small: '100x100>',
+    # square: '200x200#',
+    Large: '300x300>'
+  }
+    
+  validates_attachment :user_image,
+    content_type: {
+      content_type: ["image/jpeg", "image/gif", "image/png"]
+    }, size: { in: 0..5.megabytes }
+
   def user_score
     @points = 0
     posts.each do |post|

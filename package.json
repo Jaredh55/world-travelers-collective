@@ -1,5 +1,7 @@
 {
   "name": "capstone",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "aws-amplify": "^0.4.8"
+  }
 }

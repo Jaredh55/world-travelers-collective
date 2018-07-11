@@ -1,5 +1,6 @@
 /* global Vue, VueRouter, axios */
 
+
 var UsersEditPage = {
   template: "#users-edit-page",
   data: function() {
@@ -12,6 +13,10 @@ var UsersEditPage = {
         posts: "",
         points: ""
       },
+      user_image_file_name: "",
+      user_image_content_type: "",
+      user_image_file_size: "",
+      user_image_updated_at: "",
       newVisit: {
         city: "",
         country: ""
@@ -77,6 +82,25 @@ var UsersEditPage = {
             this.errors = error.response.data.errors;
           }.bind(this)
         );
+    },
+    uploadPic: function(event) {
+      if (event.target.files.length > 0) {
+        // var user_id = this.user.user_id;
+        var formData = new FormData();
+        formData.append("email", this.user.email);
+        formData.append("bio", this.user.bio);
+
+        formData.append("user_image", event.target.files[0]);
+
+        axios
+          .patch("/users/" + this.$route.params.id, formData)
+          .then(function(response) {
+            console.log(response);
+            this.user.email = "";
+            this.user.bio = "";
+            event.target.value = "";
+          });
+      }
     } 
   },
   computed: {}
@@ -224,14 +248,18 @@ var PostsNewPage = {
         formData.append("city", this.city);
         formData.append("tags", this.tags);
 
-        formData.append("image", event.target.files[0]);
+        formData.append("post_image", event.target.files[0]);
 
         axios
           .post("/api/posts", formData)
           .then(function(response) {
             console.log(response);
             this.title = "";
-            this.body = "";
+            this.content = "";
+            this.latitude = "";
+            this.longitude = "";
+            this.city = "";
+            this.tags = "";
             event.target.value = "";
           });
       }

@@ -40,6 +40,21 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.3.8)
     arel (8.0.0)
+    aws-eventstream (1.0.1)
+    aws-partitions (1.95.0)
+    aws-sdk-core (3.22.1)
+      aws-eventstream (~> 1.0)
+      aws-partitions (~> 1.0)
+      aws-sigv4 (~> 1.0)
+      jmespath (~> 1.0)
+    aws-sdk-kms (1.6.0)
+      aws-sdk-core (~> 3)
+      aws-sigv4 (~> 1.0)
+    aws-sdk-s3 (1.16.1)
+      aws-sdk-core (~> 3, >= 3.21.2)
+      aws-sdk-kms (~> 1)
+      aws-sigv4 (~> 1.0)
+    aws-sigv4 (1.0.3)
     bcrypt (3.1.12)
     bindex (0.5.0)
     builder (3.2.3)
@@ -50,6 +65,8 @@ GEM
     erubi (1.7.1)
     execjs (2.7.0)
     ffi (1.9.25)
+    figaro (1.1.1)
+      thor (~> 0.14)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
     i18n (1.0.1)
@@ -57,6 +74,7 @@ GEM
     jbuilder (2.7.0)
       activesupport (>= 4.2.0)
       multi_json (>= 1.2)
+    jmespath (1.4.0)
     json (1.8.6)
     jwt (1.5.6)
     knock (2.1.1)
@@ -167,8 +185,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  aws-sdk-s3
   bcrypt (~> 3.1.7)
   byebug
+  figaro
   jbuilder (~> 2.5)
   knock
   listen (>= 3.0.5, < 3.2)

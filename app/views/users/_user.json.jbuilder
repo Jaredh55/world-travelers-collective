@@ -3,6 +3,7 @@ json.email user.email
 json.bio user.bio
 json.current_user_id @current_user_id
 json.score user.user_score
+json.user_image_small user.user_image.url(:small)
 # json.visits user.visits
 
 json.visits do
