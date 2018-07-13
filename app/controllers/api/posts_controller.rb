@@ -60,8 +60,6 @@ class Api::PostsController < ApplicationController
     #   # @posts = @posts.order(:id => :asc)
     # end
 
-
-
     render 'index.json.jbuilder'
   end
 
@@ -146,7 +144,7 @@ class Api::PostsController < ApplicationController
 
   def destroy
       post_id = params[:id]
-      @product = Product.find(post_id)
+      @post = Post.find(post_id)
       @post.destroy
       render json: {message: "Post successfully removed"}
   end

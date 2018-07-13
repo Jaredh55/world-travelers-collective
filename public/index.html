@@ -60,13 +60,51 @@
   <link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=Roboto:100,400,700' rel='stylesheet' type='text/css'>
 
-  <!--Plugin: Retina.js (high def image replacement) - @see: http://retinajs.com/-->
+    <title>Simple Map</title>
+  <meta name="viewport" content="initial-scale=1.0">
+  <meta charset="utf-8">
+  <style>
+    /* Always set the map height explicitly to define the size of the div
+     * element that contains the map. */
+    #map {
+      height: 100%;
+      width: 50%;
+    }
+    /* Optional: Makes the sample page fill the window. */
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+
+
+  <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAGgPWYYa-gcw1ksehA4JPcC8mZx567x5A&callback=initMap" async defer></script> -->
+
+
+  <!-- Plugin: Retina.js (high def image replacement) - @see: http://retinajs.com/ -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/retina.js/1.3.0/retina.min.js"></script>
 
   <script src="https://unpkg.com/vue/dist/vue.js"></script>
   <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.js"></script>
   <script src="index.js" defer></script>
+
+  <!-- <div id="map"></div> -->
+<!--       <script>
+        var map;
+        function initMap() {
+          map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: -34.397, lng: 150.644},
+            zoom: 8
+          });
+        }
+      </script> -->
+
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAGgPWYYa-gcw1ksehA4JPcC8mZx567x5A&callback=initMap" async defer></script>
+
+  <!-- <script src="https://maps.googleapis.com/maps/api/js?key=GOOGLE_MAPS_KEY&callback=initMap" async defer></script> -->
+
 
 </head>
 
@@ -75,7 +113,12 @@
 
 <body class="page header-ontop text-font-alt page-index-forum navbar-layout-default" data-colour-scheme="blue">
 
+
   <div id="vue-app">
+
+<!--   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAWx-mtlrwUD7Kbfvc3ofHpPSVoWfU6Wq4"
+  async defer></script> -->
+
   
   <!-- @plugin: page loading indicator, delete to remove loader -->
   <div class="page-loader" data-toggle="page-loader"></div>
@@ -104,6 +147,8 @@
           <div class="navbar">
             <!--main navigation-->
             <ul class="nav navbar-nav flex-row align-items-center">
+              <li  class="nav-item d-none d-md-block"><a href="/#/posts/new" class="nav-link text-white font-weight-normal px-2"> Profile </a> </li>
+
               <li  class="nav-item d-none d-md-block"><a href="/#/posts/new" class="nav-link text-white font-weight-normal px-2"> New Post  </a> </li>
 
               <li class="nav-item d-none d-md-block"><a href="/#/posts" class="nav-link text-white px-2"> Home </a></li>
@@ -310,6 +355,7 @@
       <br>
       <br>
       <br>
+      <br>
 
       <h1>Login</h1>
       <ul>
@@ -323,8 +369,10 @@
         <label>Password:</label>
         <input type="password" class="form-control" v-model="password">
       </div>
-      <button class="btn btn-primary" v-on:click="submit()">Submit</button>
+      <button class="btn btn-primary" v-on:click="submit()">Log In</button>
     </div>
+    <br>
+    <br>
 
   </div>
 </template>
@@ -334,7 +382,8 @@
 
     <div id="highlighted">
       <!-- Image Banner: Use the the data-bg-img functionality to create a simple image banner Use spacer classes to make the banner larger with padding, allows for easy responsive changes too see: elements-ctas.htm To make the banner full height/screen add the attributes: data-toggle="full-height" data-offset="#header"-->
-      <div class="bg-white text-center text-lg-left py-5 py-lg-10 flex-valign" data-bg-img="assets/img/index-forum/banner-1.jpg" data-css='{"background-position":"center top","background-attachment":"fixed"}' data-toggle="full-height" data-breakpoint="992">
+      <div class="bg-white text-center text-lg-left py-5 py-lg-10 flex-valign" data-bg-img="assets/img/index-forum/banner-1.jpg" 
+      data-css='{"background-position":"center top","background-attachment":"fixed"}' data-toggle="full-height" data-breakpoint="992">
         <div data-toggle="sticky" data-settings='{"persist":true,"breakpoint":992}' class="pos-t-auto">
           <div class="container pt-6 text-center" data-scroll="scrollax">
             <h2 class="display-4 text-white mb-0 w-100 w-lg-50 mx-auto font-weight-bold" data-animate="fadeIn" data-animate-delay="0.2">
@@ -345,10 +394,10 @@
               <div class="input-group input-group-rounded mb-3">
                 <div class="input-group-prepend" id="sizing-addon1">
                   <span class="input-group-text bg-grey border-0">
-                      <button v-on:click="searchPosts()" type="submit" class="border-0 btn-block btn-lg pr-0 outline-0 bg-transparent"><i class="ion-android-search icon-1x op-5"></i></button>
+                      <button v-on:click="searchPosts(); goto('seeposts')" type="submit" class="border-0 btn-block btn-lg pr-0 outline-0 bg-transparent"><i class="ion-android-search icon-1x op-5"></i></button>
                     </span>
                 </div>
-                <input type="search" v-model="searchTerm" v-on:keyup.enter="searchPosts()" class="form-control bg-grey border-0 outline-0 font-italic" placeholder="Search ..."/>
+                <input type="search" v-model="searchTerm" v-on:keyup.enter="searchPosts(); goto('seeposts')" class="form-control bg-grey border-0 outline-0 font-italic" placeholder="Search ..."/>
               </div>
             </form>
           </div>
@@ -356,14 +405,14 @@
       </div>
     </div>
 
-    <div class="container">
+    <div class="container" ref="seeposts">
       <br>
       <br>
       <br>
       <br>
 
       <div class="col-lg-12 mb-3">
-                  
+
 <!--                  <ul>
                    <li>
                      Sort By
@@ -385,6 +434,7 @@
                   <div class="row align-items-center">
                       
                     <div class="col-md-8 mb-3 mb-sm-0">
+                      <img v-bind:src="post.user.user_image">
                       <h5>
                         <a v-bind:href="'/#/posts/' + post.post_id" class="text-primary">{{post.title}}</a>
                       </h5>
@@ -412,6 +462,9 @@
                     </div>
                   </div>
                 </div>
+
+        <button v-on:click="goto('seeposts')" >top of posts</button>
+
                 <!-- /End of post 1 -->
                 <!-- Online users -->
  
@@ -454,14 +507,23 @@
 
       <h2>{{ post["title"] }}</h2>
       <h4>Content: {{ post["content"] }}</h4>
+      <h4>Image: </h4>
+      <img v-bind:src="post.post_image_medium">
       <h4>Latitude: {{ post["latitude"] }}</h4>
       <h4>Longitude: {{ post["longitude"] }}</h4>
-      <h4>User: <a v-bind:href="'/#/users/' + post.user.id">{{ post["user"]["email"] }}</a></h4>
+
+      <button v-on:click="initMap()">Make Map!</button>
+
+      <div style="width:50%;height:200px;background-color:grey;">
+      <div id="map"></div>
+      </div>
+
+
       <h4>City: {{ post["city"]["name"] }}</h4>
       <h4>Country: {{ post["country"]["name"] }}</h4>
       <h4>Tags: {{ post["show_tags"] }}</h4>
-      <h4>Image: </h4>
-      <img v-bind:src="post.post_image_medium">
+      <h4>User: <a v-bind:href="'/#/users/' + post.user.id">{{ post["user"]["email"] }}</a></h4>
+      <img v-bind:src="post.user_image">
       <!-- <img v-bind:src="post.post_image_square"> -->
       <!-- <img v-bind:src="post.post_image_thumb"> -->
 
@@ -501,9 +563,13 @@
             <input type="submit" name="" value="Add Comment" v-on:click="addComment()"/>
           </form>
 
+      <br>
+      <br>
 
-      <a v-if="post.current_user_id === post.user.id" v-bind:href="'/#/posts/' + post['post_id'] + '/edit'">Edit</a>
-      <a v-if="post.current_user_id === post.user.id" v-bind:href="'/#/posts/' + post['post_id']" data-method="delete">Delete</a>
+      <a v-if="post.current_user_id === post.user.id" v-bind:href="'/#/posts/' + post['post_id'] + '/edit'">Edit Post</a>
+      <form>
+        <button v-if="post.current_user_id === post.user.id" v-on:click="deletePost()">Delete Post</button>
+      </form>
 
       <br>
       <br>
@@ -517,6 +583,7 @@
   <div class="vue-component">
 
     <div class="container">
+      <br>
       <br>
       <br>
       <br>
@@ -616,11 +683,13 @@
       <br>
 
       <h2>{{ user.email }}</h2>
-      <h4>Bio: {{ user.bio }}</h4>
-      <h4>Picture: </h4>
-      <img v-bind:src="user.user_image_small">
+
+      <img class="profilepic_large" v-bind:src="user.user_image_Large">
   
-      <h4>Visits: </h4>
+      <h4>Bio: </h4>
+      <h4>{{ user.bio }}</h4>
+
+      <h4>Places I've Been: </h4>
       <ul>
         <div v-for= "visit in user.visits">
           <li>
@@ -629,7 +698,7 @@
          </div>
       </ul>
 
-      <h4>Posts: </h4>
+      <h4>My Posts: </h4>
       <ul>
         <div v-for= "post in user.posts">
           <li>
@@ -639,6 +708,9 @@
       </ul>
 
       <h4>Points: {{user.score}}</h4>
+      <h4>Level: {{user.user_level}}</h4>
+
+      <br>
 
       <a v-if="user.current_user_id === user.user_id" v-bind:href="'/#/users/' + user.user_id + '/edit'">Edit Profile</a>
       <a v-if="user.current_user_id === user.user_id" v-bind:href="'/#/users/' + user.id" data-method="delete">Delete</a>

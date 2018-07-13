@@ -284,7 +284,10 @@ var PostsShowPage = {
         updated_at: "",
         comments: [{votecount: "", score: "", id: ""}],
         score: "",
-        votecount: ""
+        votecount: "",
+        city: {name: ""},
+        country: {name: ""},
+        user: {id: 0}
       },
       newVote: {
         votable_id: "",
@@ -297,14 +300,23 @@ var PostsShowPage = {
       }
     };
   },
+
   created: function() {
     axios
       .get("/api/posts/" + this.$route.params.id )
       .then(function(response) {
         this.post = response.data;
+        this.initMap();
       }.bind(this));
   },
   methods: {
+    initMap: function() {
+      var map;
+      map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: -34.397, lng: 150.644},
+        zoom: 8
+      });
+    },
     votePost: function(value) {
       var params = {
         votable_id: this.post.post_id,
@@ -428,10 +440,36 @@ var PostsShowPage = {
           // this.post.votecount = response.data.votecount;
           // router.push("/posts/" + postId);
         }.bind(this));
+    },
+    deletePost: function() {
+      var postId = this.post.post_id;
+
+      axios
+        .delete("/api/posts/" + postId)
+        .then(function(response) {
+          router.push("/posts");
+        })
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    //   axios
+    //     .get("/api/posts/" + postId)
+    //     .then(function(response) {
+    //       this.post.comments = response.data.comments;
+    //       // this.post.votecount = response.data.votecount;
+    //       // router.push("/posts/" + postId);
+    //     }.bind(this));
     }
 
   },
-  computed: {}
+  computed: {},
+  mounted: function() {
+    console.log('hello');
+    // this.initMap();
+
+  }
 };
 
 var PostsIndexPage = {
@@ -442,8 +480,8 @@ var PostsIndexPage = {
       searchTerm: "",
       sort_attribute: "",
       sort_order: "",
-      sortAttribute: "created_at",
-      sortAscending: true,
+      sortAttribute: "score",
+      sortAscending: false,
       selected: ""
     };
   },
@@ -470,6 +508,13 @@ var PostsIndexPage = {
             this.errors = error.response.data.errors;
           }.bind(this)
         );
+    },
+    goto(refName) {
+      var element = this.$refs[refName];
+      console.log(element);
+      var top = element.offsetTop;
+          
+      window.scrollTo(0, top);
     },
     sortPosts: function(order, attribute) {
       // var params = {
@@ -585,7 +630,7 @@ var LoginPage = {
           axios.defaults.headers.common["Authorization"] =
             "Bearer " + response.data.jwt;
           localStorage.setItem("jwt", response.data.jwt);
-          router.push("/");
+          router.push("/posts");
         })
         .catch(
           function(error) {
@@ -611,7 +656,7 @@ var LogoutPage = {
 
 var router = new VueRouter({
   routes: [
-          { path: "/", component: HomePage },
+          { path: "/", component: PostsIndexPage },
           { path: "/signup", component: SignupPage},
           { path: "/login", component: LoginPage },
           { path: "/logout", component: LogoutPage },

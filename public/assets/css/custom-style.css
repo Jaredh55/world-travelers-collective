@@ -40,6 +40,13 @@
  *--------------------------------------------------
  */
 
+/*.header-darker .header,
+.header.header-darker {
+  background-color: #0A090F;
+  border-bottom: 1px solid #5a5f61;
+  color: #f0f0f0
+}*/
+
 #header {
   /* 1. Header wrapper */
 }

@@ -7,9 +7,8 @@ class User < ApplicationRecord
   has_many :comments
 
   has_attached_file :user_image, styles: {
-    small: '100x100>',
-    # square: '200x200#',
-    Large: '300x300>'
+    small: '100x100#',
+    Large: '300x300#'
   }
     
   validates_attachment :user_image,
@@ -28,6 +27,22 @@ class User < ApplicationRecord
     end
 
     return @points
+  end
+
+  def user_level
+    if user_score < 5
+      level = "Newbie"
+    elsif user_score < 10
+      level = "Traveler"
+    elsif user_score < 15
+      level = "Globetrotter"
+    elsif user_score < 20
+      level = "Nomad"
+    elsif user_score > 19
+      level = "Marco Polo"
+    end
+      
+    return level
   end
 
   # def show_posts

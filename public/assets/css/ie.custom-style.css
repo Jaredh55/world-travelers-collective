@@ -40,6 +40,16 @@
  *--------------------------------------------------
  */
 
+img.profilepic {
+  border-radius: 50%;
+  max-width: 300px;
+}
+
+img.profilepic-small {
+  border-radius: 50%;
+  max-width: 50px;
+}
+
 #header {
   /* 1. Header wrapper */
 }

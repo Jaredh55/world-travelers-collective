@@ -5,6 +5,7 @@ json.latitude @post.latitude
 json.longitude @post.longitude
 json.visit @post.visit
 json.user @post.user
+json.user_image @post.user.user_image.url(:small)
 json.city @post.visit.city
 json.country @post.city.country
 json.tags @post.tags
