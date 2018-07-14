@@ -2,6 +2,10 @@ class Api::PostsController < ApplicationController
   def index
     @current_user_id = current_user.id
     @posts = Post.all
+    @cities = City.all
+    @countries = Country.all
+    @tags = Tag.all
+    
 
     search_term = params[:search]
 

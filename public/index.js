@@ -651,6 +651,10 @@ var PostsIndexPage = {
   data: function() {
     return {
       posts: [],
+      cities: [],
+      countries: [],
+      tags: [],
+      current_user_id: "",
       searchTerm: "",
       sort_attribute: "",
       sort_order: "",
@@ -663,7 +667,12 @@ var PostsIndexPage = {
     axios
       .get("/api/posts")
       .then(function(response) {
-        this.posts = response.data;
+        this.posts = response.data.posts;
+        this.countries = response.data.countries;
+        this.cities = response.data.cities;
+        this.tags = response.data.tags;
+        this.current_user_id = response.data.current_user_id;
+        this.$parent.current_user_id = response.data.current_user_id;
       }.bind(this));
   },
   methods: {
@@ -675,7 +684,7 @@ var PostsIndexPage = {
       axios
         .get("/api/posts?search=" + searchTerm)
         .then(function(response) {
-          this.posts = response.data;
+          this.posts = response.data.posts;
         }.bind(this))
         .catch(
           function(error) {
@@ -699,7 +708,7 @@ var PostsIndexPage = {
         .get("/api/posts?sort_by=" + attribute + "&&sort_order=" + order)
         // .get("/api/posts", params)
         .then(function(response) {
-          this.posts = response.data;
+          this.posts = response.data.posts;
         }.bind(this))
         .catch(
           function(error) {
@@ -830,21 +839,21 @@ var LogoutPage = {
 
 var router = new VueRouter({
   routes: [
-          { path: "/", component: PostsIndexPage },
-          { path: "/signup", component: SignupPage},
-          { path: "/login", component: LoginPage },
-          { path: "/logout", component: LogoutPage },
-          { path: "/posts", component: PostsIndexPage },
-          { path: "/posts/new", component: PostsNewPage },
-          { path: "/posts/:id", component: PostsShowPage },
-          { path: "/posts/:id/edit", component: PostsEditPage },
-          { path: "/users/:id", component: UsersShowPage },
-          { path: "/users/:id/edit", component: UsersEditPage },
-          { path: "/users", component: UsersIndexPage },
-          { path: "/chatrooms/:id", component: ChatroomsShowPage}
+    { path: "/", component: PostsIndexPage },
+    { path: "/signup", component: SignupPage},
+    { path: "/login", component: LoginPage },
+    { path: "/logout", component: LogoutPage },
+    { path: "/posts", component: PostsIndexPage },
+    { path: "/posts/new", component: PostsNewPage },
+    { path: "/posts/:id", component: PostsShowPage },
+    { path: "/posts/:id/edit", component: PostsEditPage },
+    { path: "/users/:id", component: UsersShowPage },
+    { path: "/users/:id/edit", component: UsersEditPage },
+    { path: "/users", component: UsersIndexPage },
+    { path: "/chatrooms/:id", component: ChatroomsShowPage}
 
 
-          ],
+  ],
   scrollBehavior: function(to, from, savedPosition) {
     return { x: 0, y: 0 };
   }
@@ -852,6 +861,11 @@ var router = new VueRouter({
 
 var app = new Vue({
   el: "#vue-app",
+  data: function() {
+    return {
+      current_user_id: ""
+    };
+  },
   router: router,
   created: function() {
     var jwt = localStorage.getItem("jwt");

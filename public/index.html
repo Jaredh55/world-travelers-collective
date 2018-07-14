@@ -147,17 +147,17 @@
           <div class="navbar">
             <!--main navigation-->
             <ul class="nav navbar-nav flex-row align-items-center">
-              <li  class="nav-item d-none d-md-block"><a href="/#/posts/new" class="nav-link text-white font-weight-normal px-2"> Profile </a> </li>
+              <li  v-if="current_user_id !== ''" class="nav-item d-none d-md-block"><a v-bind:href="'/#/users/' + current_user_id" class="nav-link text-white font-weight-normal px-2"> Profile </a> </li>
 
               <li  class="nav-item d-none d-md-block"><a href="/#/users" class="nav-link text-white font-weight-normal px-2"> Find Users </a> </li>
 
 
-              <li  class="nav-item d-none d-md-block"><a href="/#/posts/new" class="nav-link text-white font-weight-normal px-2"> New Post  </a> </li>
+              <li  v-if="current_user_id !== ''" class="nav-item d-none d-md-block"><a href="/#/posts/new" class="nav-link text-white font-weight-normal px-2"> New Post  </a> </li>
 
               <li class="nav-item d-none d-md-block"><a href="/#/posts" class="nav-link text-white px-2"> Home </a></li>
               <li class="nav-item d-none d-md-block"><a href="/#/signup" class="nav-link text-white text-sm px-2">Sign Up</a></li>
               <li class="nav-item d-none d-md-block"><a href="/#/login" class="nav-link text-white text-sm px-2 "> Log In </a></li>
-              <li class="nav-item d-none d-md-block"><a href="/#/logout" class="nav-link text-white text-sm px-2 "> Logout </a></li>
+              <li v-if="current_user_id !== ''" class="nav-item d-none d-md-block"><a href="/#/logout" class="nav-link text-white text-sm px-2 "> Logout </a></li>
               <li class="nav-item ml-lg-3">
                 <a href="#top" class="btn btn-light btn-icon btn-sm" data-toggle="off-canvas" data-target="#offcanvas" data-settings='{"cloneTarget":false, "modalClassExtras":"overlay overlay-light overlay-op-3 overlay-close-cursor"}'> <i class="lnr lnr-menu fa-1x"></i></a>
               </li>
@@ -324,6 +324,7 @@
       <br>
       <br>
       <br>
+      <br>
       <h1>Signup</h1>
       <ul>
         <li class="text-danger" v-for="error in errors">{{ error }}</li>
@@ -345,7 +346,9 @@
         <input type="password" class="form-control" v-model="passwordConfirmation">
       </div>
       <button class="btn btn-primary" v-on:click="submit()">Submit</button>
+      <br>
     </div>
+    <br>
 
   </div>
 </template>
@@ -405,7 +408,12 @@
                       <button v-on:click="searchPosts(); goto('seeposts')" type="submit" class="border-0 btn-block btn-lg pr-0 outline-0 bg-transparent"><i class="ion-android-search icon-1x op-5"></i></button>
                     </span>
                 </div>
-                <input type="search" v-model="searchTerm" v-on:keyup.enter="searchPosts(); goto('seeposts')" class="form-control bg-grey border-0 outline-0 font-italic" placeholder="Search ..."/>
+                <input list="search_dropdown_options" type="search" v-model="searchTerm" v-on:keyup.enter="searchPosts(); goto('seeposts')" class="form-control bg-grey border-0 outline-0 font-italic" placeholder="Search ..."/>
+                <datalist id="search_dropdown_options">
+                  <option v-for="city in cities" >{{city.name}}</option>
+                  <option v-for="country in countries">{{country.name}}</option>
+                  <option v-for="tag in tags">{{tag.name}}</option>
+                </datalist>
               </div>
             </form>
           </div>
@@ -843,6 +851,7 @@
         <br>
 
         <h2>Users Search: </h2>
+        <h5>Search by Username, Bio, or places Visited</h5>
         <form>
           <input type="search" v-model="searchTerm" v-on:keyup.enter="searchUsers()" class="form-control bg-grey outline-0 font-italic" placeholder="Search ..."/>
         </form>
@@ -855,8 +864,8 @@
               <div class="card mb-5" style="width: 18rem;">
                 <img class="card-img-top" v-bind:src="user.user_image_small" alt="">
                 <div class="card-body">
-                  <h5 class="card-title">{{ user["email"] }}</h5>
-                  <a v-bind:href="'/#/users/' + user['user_id']" class="btn btn-primary float-right">More Info</a>
+                  <a v-bind:href="'/#/users/' + user['user_id']" class="card-title">{{ user["email"] }}</a>
+                 
                   <!-- <p class="card-text">Bio: {{ user["bio"] }}</p> -->
                   <p class="card-text">Score: {{ user["score"] }}</p>
                   <p class="card-text">Level: {{ user["user_level"] }}</p>
