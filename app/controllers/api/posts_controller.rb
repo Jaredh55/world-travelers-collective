@@ -73,7 +73,7 @@ class Api::PostsController < ApplicationController
 
   def create
     
-    post_city = City.find_by(name: params[:city])
+    post_city = City.find_by(name: params[:city].downcase.titleize)
     post_city_id = post_city.id
     visit = Visit.find_by(user_id: current_user.id, city_id: post_city_id)
 

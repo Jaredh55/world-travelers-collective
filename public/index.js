@@ -1,5 +1,88 @@
 /* global Vue, VueRouter, axios */
 
+var ChatroomsShowPage = {
+  template: "#chatrooms-show-page",
+  data: function() {
+    return { 
+      chatroom: {
+        id: "",
+        chats: "",
+        users: ""
+      },
+      currentuser: {
+        current_user: ""
+      },
+      newChat: {
+        content: ""
+      }
+    };
+  },
+  created: function() {
+    axios
+      .get("/api/chatrooms/" + this.$route.params.id )
+      .then(function(response) {
+        this.chatroom = response.data;
+      }.bind(this));
+  },
+  methods: {
+    addChat: function() {
+      var params = {
+        content: this.newChat.content,
+        chatroom_id: this.chatroom.id
+      };
+      var chatroomId = this.chatroom.id;
+      axios
+        .post("/api/chats", params)
+        .then(function(response) {
+          // router.push("/posts/" + postId);
+          this.chatroom.chats = response.data.chats;
+        }.bind(this))
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    }
+  },
+  computed: {}
+};
+
+var UsersIndexPage = {
+  template: "#users-index-page",
+  data: function() {
+    return {
+      users: [],
+      searchTerm: ""
+
+    };
+  },
+  created: function() {
+    axios
+    .get("/users")
+    .then(function(response) {
+      this.users = response.data;
+    }.bind(this));
+  },
+  methods: {
+    searchUsers: function() {
+      // var params = {
+      //   search: search_term
+      // };
+      var searchTerm = this.searchTerm;
+      axios
+        .get("/users?search=" + searchTerm)
+        .then(function(response) {
+          this.users = response.data;
+        }.bind(this))
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    },
+  },
+  computed: {}
+};
 
 var UsersEditPage = {
   template: "#users-edit-page",
@@ -87,8 +170,8 @@ var UsersEditPage = {
       if (event.target.files.length > 0) {
         // var user_id = this.user.user_id;
         var formData = new FormData();
-        formData.append("email", this.user.email);
-        formData.append("bio", this.user.bio);
+        // formData.append("email", this.user.email);
+        // formData.append("bio", this.user.bio);
 
         formData.append("user_image", event.target.files[0]);
 
@@ -96,8 +179,8 @@ var UsersEditPage = {
           .patch("/users/" + this.$route.params.id, formData)
           .then(function(response) {
             console.log(response);
-            this.user.email = "";
-            this.user.bio = "";
+            // this.user.email = "";
+            // this.user.bio = "";
             event.target.value = "";
           });
       }
@@ -116,21 +199,42 @@ var UsersShowPage = {
         user_id: "",
         visits: "",
         posts: "",
-        points: ""
+        points: "",
+        chatrooms: ""
       },
       currentuser: {
         current_user: ""
+      },
+      newChatroom: {
+        id: ""
       }
     };
   },
   created: function() {
     axios
-    .get("/users/" + this.$route.params.id )
-    .then(function(response) {
-      this.user = response.data;
-    }.bind(this));
+      .get("/users/" + this.$route.params.id )
+      .then(function(response) {
+        this.user = response.data;
+      }.bind(this));
   },
   methods: {
+    createChat: function() {
+      var params = {
+        receiver_id: this.user.user_id
+      };
+
+      axios
+        .post("/api/chatrooms", params)
+        .then(function(response) {
+          this.newChatroom = response.data;
+          router.push("/chatrooms/" + this.newChatroom.id);
+        }.bind(this))
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    }
     //   isCurrentUser: function(inputid) {
     //   return inputid === current_user;
     // },
@@ -153,6 +257,10 @@ var PostsEditPage = {
         tags: "",
         show_tags: ""
       },
+      post_image_file_name: "",
+      post_image_content_type: "",
+      post_image_file_size: "",
+      post_image_updated_at: "",
       new_post: {
         edited_title: "",
         edited_content: "",
@@ -192,6 +300,21 @@ var PostsEditPage = {
             this.errors = error.response.data.errors;
           }.bind(this)
         );
+    },
+    uploadPostPic: function(event) {
+      if (event.target.files.length > 0) {
+        var formData = new FormData();
+
+        formData.append("post_image", event.target.files[0]);
+
+        axios
+          .patch("/api/posts/" + this.$route.params.id, formData)
+          .then(function(response) {
+            console.log(response);
+
+            event.target.value = "";
+          });
+      }
     }
   },
   computed: {}
@@ -216,7 +339,43 @@ var PostsNewPage = {
       errors: []
     };
   },
+  created: function() {
+    console.log('hello');
+    this.initMap();
+  },
   methods: {
+    initMap: function() {
+      var map;
+      var latitude = 1;
+      var longitude = 1;
+      map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: latitude, lng: longitude},
+        zoom: 10
+      });
+
+      var marker = new google.maps.Marker({
+        position:{lat: latitude, lng: longitude},
+        map:map
+      });
+    },
+    // map: function() {
+    //   var map;
+    //   var opts = { 'center': new google.maps.LatLng(35.567980458012094,51.4599609375), 'zoom': 5, 'mapTypeId': google.maps.MapTypeId.ROADMAP };
+    //         map = new google.maps.Map(document.getElementById('mapdiv'), opts);
+
+    //      google.maps.event.addListener(map,'click',function(event) {
+    //          document.getElementById('latlongclicked').value = event.latLng.lat();
+    //          document.getElementById('lotlongclicked').value =  event.latLng.lng();
+    //      });
+
+    //      google.maps.event.addListener(map,'mousemove',function(event) {
+    //          document.getElementById('latspan').innerHTML = event.latLng.lat();
+    //          document.getElementById('lngspan').innerHTML = event.latLng.lng();
+    //      });
+
+    // } 
+    // google.maps.event.addDomListener(window, 'load', init_map);
+    // },
     submit: function() {
       var params = {
         title: this.title,
@@ -306,15 +465,30 @@ var PostsShowPage = {
       .get("/api/posts/" + this.$route.params.id )
       .then(function(response) {
         this.post = response.data;
-        this.initMap();
+        if (this.post.latitude) {
+          this.initMap();
+        }
       }.bind(this));
   },
   methods: {
+    existsCoordinates: function() {
+      if (this.post.latitude && this.post.longitude) {
+        console.log('howdy');
+        return true;
+      }
+    },
     initMap: function() {
       var map;
+      var latitude = parseFloat(this.post.latitude);
+      var longitude = parseFloat(this.post.longitude);
       map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: -34.397, lng: 150.644},
-        zoom: 8
+        center: {lat: latitude, lng: longitude},
+        zoom: 10
+      });
+
+      var marker = new google.maps.Marker({
+        position:{lat: latitude, lng: longitude},
+        map:map
       });
     },
     votePost: function(value) {
@@ -447,7 +621,7 @@ var PostsShowPage = {
       axios
         .delete("/api/posts/" + postId)
         .then(function(response) {
-          router.push("/posts");
+          router.push("/");
         })
         .catch(
           function(error) {
@@ -466,7 +640,7 @@ var PostsShowPage = {
   },
   computed: {},
   mounted: function() {
-    console.log('hello');
+    // console.log('hello');
     // this.initMap();
 
   }
@@ -665,7 +839,10 @@ var router = new VueRouter({
           { path: "/posts/:id", component: PostsShowPage },
           { path: "/posts/:id/edit", component: PostsEditPage },
           { path: "/users/:id", component: UsersShowPage },
-          { path: "/users/:id/edit", component: UsersEditPage }
+          { path: "/users/:id/edit", component: UsersEditPage },
+          { path: "/users", component: UsersIndexPage },
+          { path: "/chatrooms/:id", component: ChatroomsShowPage}
+
 
           ],
   scrollBehavior: function(to, from, savedPosition) {

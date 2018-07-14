@@ -5,6 +5,9 @@ class User < ApplicationRecord
   has_many :posts, through: :visits
   has_many :votes
   has_many :comments
+  has_many :chatroom_users
+  has_many :chatrooms, through: :chatroom_users
+  has_many :chats
 
   has_attached_file :user_image, styles: {
     small: '100x100#',

@@ -68,11 +68,11 @@
      * element that contains the map. */
     #map {
       height: 100%;
-      width: 50%;
+      width: 100%;
     }
     /* Optional: Makes the sample page fill the window. */
     html, body {
-      height: 100%;
+      height: 200%;
       margin: 0;
       padding: 0;
     }
@@ -148,6 +148,9 @@
             <!--main navigation-->
             <ul class="nav navbar-nav flex-row align-items-center">
               <li  class="nav-item d-none d-md-block"><a href="/#/posts/new" class="nav-link text-white font-weight-normal px-2"> Profile </a> </li>
+
+              <li  class="nav-item d-none d-md-block"><a href="/#/users" class="nav-link text-white font-weight-normal px-2"> Find Users </a> </li>
+
 
               <li  class="nav-item d-none d-md-block"><a href="/#/posts/new" class="nav-link text-white font-weight-normal px-2"> New Post  </a> </li>
 
@@ -382,8 +385,13 @@
 
     <div id="highlighted">
       <!-- Image Banner: Use the the data-bg-img functionality to create a simple image banner Use spacer classes to make the banner larger with padding, allows for easy responsive changes too see: elements-ctas.htm To make the banner full height/screen add the attributes: data-toggle="full-height" data-offset="#header"-->
-      <div class="bg-white text-center text-lg-left py-5 py-lg-10 flex-valign" data-bg-img="assets/img/index-forum/banner-1.jpg" 
+      <div class="bg-white text-center text-lg-left py-5 py-lg-10 flex-valign" data-bg-img="assets/img/backgrounds/man-with-open-arms-saluting-the-nature-picjumbo-com.jpg" 
       data-css='{"background-position":"center top","background-attachment":"fixed"}' data-toggle="full-height" data-breakpoint="992">
+
+      <!-- assets/img/index-forum/banner-1.jpg -->
+    
+      <!-- assets/img/backgrounds/man-with-open-arms-saluting-the-nature-picjumbo-com.jpg -->
+
         <div data-toggle="sticky" data-settings='{"persist":true,"breakpoint":992}' class="pos-t-auto">
           <div class="container pt-6 text-center" data-scroll="scrollax">
             <h2 class="display-4 text-white mb-0 w-100 w-lg-50 mx-auto font-weight-bold" data-animate="fadeIn" data-animate-delay="0.2">
@@ -426,7 +434,7 @@
                  </ul> -->
 
                 <div>
-                   <button v-on:click="setAttribute('created_at')">Newest First</button>
+                   <button v-on:click="setAttribute('created_at')">Sort by Newest</button>
                    <button v-on:click="setAttribute('score')">Sort by Score </button>
                  </div>
                 <!-- End of post 1 -->
@@ -497,7 +505,7 @@
 
 <template id="posts-show-page">
   <div class="vue-component">
-    
+
     <div class="container">
       <br>
       <br>
@@ -512,9 +520,9 @@
       <h4>Latitude: {{ post["latitude"] }}</h4>
       <h4>Longitude: {{ post["longitude"] }}</h4>
 
-      <button v-on:click="initMap()">Make Map!</button>
-
-      <div style="width:50%;height:200px;background-color:grey;">
+      <!-- <button v-on:click="initMap()">Make Map!</button> -->
+      <h4>Map:</h4>
+      <div style="width:100%;height:300px;background-color:grey;">
       <div id="map"></div>
       </div>
 
@@ -609,8 +617,15 @@
         <label> Longitude: </label>
         <input type="text" class="form-control" v-model="longitude">
       </div>
+
+      <div style="width:100%;height:300px;background-color:grey;">
+      <div id="map"></div>
+      </div>
+
+      <h5> Use <a href="https://www.latlong.net/">https://www.latlong.net/</a></h5>
+
       <div class="form-group">
-        <label> City: </label>
+        <label> City: (must enter city you have visited) </label>
         <input type="text" class="form-control" v-model="city">
       </div>
 
@@ -623,6 +638,10 @@
       </div>
 
       <button class="btn btn-primary" v-on:click="submit()">Create Post</button>
+
+      <br>
+      <br>
+
     </div>
 
   </div>
@@ -640,6 +659,10 @@
       <ul>
         <li class="text-danger" v-for="error in errors">{{ error }}</li>
       </ul>
+
+      <br>
+
+      <h3>Edit Post: </h3>
 
       <div class="form-group">
         <label>Title:</label> 
@@ -665,8 +688,15 @@
       <div class="form-group">
         Tags: <input type="text" name="tags" v-model="post.show_tags"> (separate by commas and spaces)
       </div>
+
+      <div class="form-group">
+        Image: <input type="file" v-on:change="uploadPostPic($event)">
+      </div>
+
       <button class="btn btn-primary" v-on:click="submit()">Update Post</button>
     </div>
+
+    <br>
   
   </div>
 
@@ -710,6 +740,23 @@
       <h4>Points: {{user.score}}</h4>
       <h4>Level: {{user.user_level}}</h4>
 
+      <form>
+        <h4>Chats: </h4>
+        <div v-if="user.current_user_id !== user.user_id" v-for="chatroom in user.chatrooms">
+          <div v-for="chatroom_user in chatroom.chatroom_users">
+            <a v-if="chatroom_user.id === user.current_user_id" v-bind:href="'/#/chatrooms/' + chatroom.id"> Continue Chat with This User </a> <h6 v-if="chatroom_user.id === user.current_user_id">Created on {{chatroom.created_at}}</h6>
+          </div>
+        </div>
+
+        <div v-if="user.current_user_id === user.user_id" v-for="chatroom in user.chatrooms">
+          <div v-for="chatroom_user in chatroom.chatroom_users">
+            <a v-if="chatroom_user.id !== user.current_user_id" v-bind:href="'/#/chatrooms/' + chatroom.id"> Continue Chat with {{chatroom_user.email}}</a> <h6 v-if="chatroom_user.id !== user.current_user_id">Created on {{chatroom.created_at}}</h6>
+          </div>
+        </div>
+
+        <button v-if="user.current_user_id !== user.user_id" v-on:click="createChat()">Create Chat</button>
+      </form>
+
       <br>
 
       <a v-if="user.current_user_id === user.user_id" v-bind:href="'/#/users/' + user.user_id + '/edit'">Edit Profile</a>
@@ -749,7 +796,7 @@
           <input v-if="user.current_user_id === user.user_id" type="text" v-model="user.bio">
         </div>
 
-        <div class="form-group">
+        <div v-if="user.current_user_id === user.user_id" class="form-group">
           Profile Picture: <input type="file" v-on:change="uploadPic($event)">
         </div>
 
@@ -779,6 +826,103 @@
 
     </div>
 
+  
+  </div>
+
+</template>
+
+<template id="users-index-page">
+
+    <div class="vue-component">
+
+      <div class="container">
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+
+        <h2>Users Search: </h2>
+        <form>
+          <input type="search" v-model="searchTerm" v-on:keyup.enter="searchUsers()" class="form-control bg-grey outline-0 font-italic" placeholder="Search ..."/>
+        </form>
+
+        <br>
+
+        <div class="row">
+            <div v-for="user in users" class="col-md-4">
+
+              <div class="card mb-5" style="width: 18rem;">
+                <img class="card-img-top" v-bind:src="user.user_image_small" alt="">
+                <div class="card-body">
+                  <h5 class="card-title">{{ user["email"] }}</h5>
+                  <a v-bind:href="'/#/users/' + user['user_id']" class="btn btn-primary float-right">More Info</a>
+                  <!-- <p class="card-text">Bio: {{ user["bio"] }}</p> -->
+                  <p class="card-text">Score: {{ user["score"] }}</p>
+                  <p class="card-text">Level: {{ user["user_level"] }}</p>
+
+
+                  <p>Visited: </p>
+                  <ul>
+                    <div v-for="visit in user.visits">
+                      <li>
+                        {{visit.city.name}}, {{visit.country.name}}
+                     </li>
+                    </div>
+                  </ul>
+                </div>
+              </div>
+
+
+            </div>
+        </div>
+
+      </div>
+
+    </div>
+
+</template>
+
+<template id="chatrooms-show-page">
+  <div class="vue-component">
+    
+    <div class="container">
+      <div v-for="user in chatroom.users">
+        <!-- <div v-if="chatroom.current_user_id !== user.id"> You are not authorized to view this chat</div> -->
+        <div v-if="chatroom.current_user_id === user.user_id">
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+
+          <h2>Chatroom ID: {{ chatroom.id }}</h2>
+
+          <h3> Chat between: </h3>
+            <ul>
+              <div v-for="user in chatroom.users">
+                <li>{{user.email}}</li>
+              </div>
+            </ul>
+
+          <h3> Chat History: </h3>
+          <ol>
+            <div v-for="chat in chatroom.chats">
+              <li>{{chat.user}}: {{chat.content}}</li>
+              <h6> Sent on: {{chat.created_at}}</h6>
+            </div>
+          </ol>
+
+          <h4>Add Chat:</h4>
+              <form>
+                <input type="text" v-model="newChat.content">
+                <input type="submit" name="" value="Add Chat" v-on:click="addChat()"/>
+              </form>
+
+          <br>
+        </div>
+      </div>
+    </div>
   
   </div>
 

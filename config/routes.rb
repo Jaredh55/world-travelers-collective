@@ -32,4 +32,15 @@ Rails.application.routes.draw do
     delete '/comments/:id' => 'comments#destroy'
   end
 
+  namespace :api do
+    post '/chats' => 'chats#create'
+    # delete '/chats/:id' => 'chats#destroy'
+  end
+
+  namespace :api do
+    get '/chatrooms/:id' => 'chatrooms#show'
+    post '/chatrooms' => 'chatrooms#create'
+    # delete '/chatrooms/:id' => 'chatrooms#destroy'
+  end
+
 end

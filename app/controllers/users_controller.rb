@@ -3,6 +3,39 @@ class UsersController < ApplicationController
   def index
     @users = User.all
 
+    search_term = params[:search]
+
+    if search_term
+      capitalize_search_term = params[:search].downcase.titleize
+      lowercase_search_term = params[:search].downcase
+      temp_users = []
+      if city = City.find_by(name: search_term)
+        city.visits.each do |visit|
+          temp_users << visit.user
+        end
+      end
+      if city = City.find_by(name: capitalize_search_term)
+        city.visits.each do |visit|
+          temp_users << visit.user
+        end
+      end
+
+      if country = Country.find_by(name: capitalize_search_term)
+        country.cities.each do |city|
+          city.visits.each do |visit|
+            temp_users << visit.user
+          end
+        end
+      end
+
+      if email_bio_content = @users.where("email iLIKE ? OR bio iLIKE ?", "%#{search_term}%", "%#{search_term}%")
+        temp_users = temp_users + email_bio_content
+      end
+
+      @users = temp_users
+    end
+
+
     render 'index.json.jbuilder'
   end
 

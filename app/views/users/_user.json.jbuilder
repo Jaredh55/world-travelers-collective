@@ -19,3 +19,7 @@ end
 json.posts do
   json.array! user.posts
 end
+
+json.chatrooms do
+  json.array! user.chatrooms, partial: "api/chatrooms/chatroom", as: :chatroom
+end
