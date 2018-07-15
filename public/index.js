@@ -102,7 +102,9 @@ var UsersEditPage = {
       user_image_updated_at: "",
       newVisit: {
         city: "",
-        country: ""
+        country: "",
+        start_date: "",
+        end_date: ""
       }
     };
   },
@@ -136,6 +138,8 @@ var UsersEditPage = {
       var params = {
         city: this.newVisit.city,
         country: this.newVisit.country,
+        start_date: this.newVisit.start_date,
+        end_date: this.newVisit.end_date
       };
       var user_id = this.user.user_id;
 
@@ -385,6 +389,10 @@ var PostsNewPage = {
         this.latitude = document.getElementById('latclicked').value;
         document.getElementById('longclicked').value =  event.latLng.lng();
         this.longitude = document.getElementById('longclicked').value;
+        var marker = new google.maps.Marker({
+          position:{lat: parseFloat(this.latitude), lng: parseFloat(this.longitude)},
+          map:map
+        });
 
       }.bind(this));
 
@@ -392,6 +400,7 @@ var PostsNewPage = {
         document.getElementById('latspan').value = event.latLng.lat();
         document.getElementById('lngspan').value = event.latLng.lng();
       });
+
       // google.maps.event.addDomListener(window, 'load', map);
     },
     submit: function() {

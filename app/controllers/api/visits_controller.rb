@@ -12,7 +12,9 @@ class Api::VisitsController < ApplicationController
 
     @visit = Visit.new(
                           user_id: current_user.id,
-                          city_id: visited_city_id
+                          city_id: visited_city_id,
+                          start_date: params[:start_date],
+                          end_date: params[:end_date]
                           )
 
     @visit.save

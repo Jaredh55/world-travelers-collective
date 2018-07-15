@@ -790,6 +790,7 @@
       <h4 v-if="user.user_id != user.current_user_id"> You are unable to edit another users profile </h4>
       <h4> Edit Profile </h4>
       <h4> {{user.email}} </h4>
+      <img v-bind:src="user.user_image_small" alt="">
 
 
       <form>
@@ -813,7 +814,8 @@
       <ul>
         <div v-for= "visit in user.visits">
           <li>
-            {{visit.city.name}}, {{visit.country.name}}
+            <p>{{visit.city.name}}, {{visit.country.name}}</p>
+            <p>Date: {{visit.start_date}} -- {{visit.end_date}}</p>
           </li>
             <button v-if="user.current_user_id === user.user_id" class="btn btn-primary" v-on:click="removeVisit(visit)">Remove visit</button>
 
@@ -824,6 +826,9 @@
         <form v-if="user.current_user_id === user.user_id">
           City: <input type="text" v-model="newVisit.city">
           Country: <input type="text" v-model="newVisit.country">
+          Start Date: <input type="date" v-model="newVisit.start_date">
+          Start Date: <input type="date" v-model="newVisit.end_date">
+
           <button clsss="btn btn-primary" v-on:click="addVisit()"> Add Visit </button>
         </form>
 
