@@ -336,10 +336,8 @@ var PostsNewPage = {
       visit_id: "",
       city: "",
       tags: "",
-      post_image_file_name: "",
-      post_image_content_type: "",
-      post_image_file_size: "",
-      post_image_updated_at: "",
+      post_image: null,
+      storeEvent: {},
       errors: []
     };
   },
@@ -348,37 +346,6 @@ var PostsNewPage = {
     // this.initMap();
   },
   methods: {
-    initMap: function() {
-      var map;
-      var latitude = 35.567980458012094;
-      var longitude = 51.4599609375;
-      map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: latitude, lng: longitude},
-        zoom: 10
-      });
-
-      var marker = new google.maps.Marker({
-        position:{lat: latitude, lng: longitude},
-        map:map
-      });
-    },
-    myMap: function() {
-      var mapProp = {
-        center:new google.maps.LatLng(51.508742,-0.120850),
-        zoom:5,
-      };
-      var map = new google.maps.Map(document.getElementById("map"),mapProp);
-
-      // google.maps.event.addListener(map, 'click', function(event) {
-      //   alert(event.latLng.lat() + ", " + event.latLng.lng());
-      // });
-
-      google.maps.event.addListener(map, 'click', function( event ) {
-        alert( "Latitude: " + event.latLng.lat() + " " + ", Longitude: " + event.latLng.lng() ); 
-      });
-
-    },
-
     map: function() {
       var map;
       var opts = { 'center': new google.maps.LatLng(41.89975948569213,-87.63608033178588), 'zoom': 7, 'mapTypeId': google.maps.MapTypeId.ROADMAP };
@@ -400,32 +367,16 @@ var PostsNewPage = {
         document.getElementById('latspan').value = event.latLng.lat();
         document.getElementById('lngspan').value = event.latLng.lng();
       });
+    },
 
-      // google.maps.event.addDomListener(window, 'load', map);
+    storeFile: function(event) {
+      if (event.target.files.length > 0) {
+        this.post_image = event.target.files[0];
+        this.storeEvent = event;
+      }
     },
     submit: function() {
-      var params = {
-        title: this.title,
-        content: this.content,
-        latitude: this.latitude,
-        longitude: this.longitude,
-        city: this.city,
-        tags: this.tags
-
-      };
-      axios
-        .post("/api/posts", params)
-        .then(function(response) {
-          router.push("/posts");
-        })
-        .catch(
-          function(error) {
-            this.errors = error.response.data.errors;
-          }.bind(this)
-        );
-    },
-    uploadFile: function(event) {
-      if (event.target.files.length > 0) {
+      if (this.post_image) {
         var formData = new FormData();
         formData.append("title", this.title);
         formData.append("content", this.content);
@@ -434,28 +385,46 @@ var PostsNewPage = {
         formData.append("city", this.city);
         formData.append("tags", this.tags);
 
-        formData.append("post_image", event.target.files[0]);
+        formData.append("post_image", this.post_image);
 
         axios
           .post("/api/posts", formData)
           .then(function(response) {
             console.log(response);
-            this.title = "";
-            this.content = "";
-            this.latitude = "";
-            this.longitude = "";
-            this.city = "";
-            this.tags = "";
-            event.target.value = "";
-          });
+            var postId = response.data.post_id;
+            router.push("/posts/" + postId);
+          })
+          .catch(
+            function(error) {
+              this.errors = error.response.data.errors;
+            }.bind(this)
+          );
+      } else {
+        var params = {
+          title: this.title,
+          content: this.content,
+          latitude: this.latitude,
+          longitude: this.longitude,
+          city: this.city,
+          tags: this.tags
+        };
+        axios
+          .post("/api/posts", params)
+          .then(function(response) {
+            var postId = response.data.post_id;
+            router.push("/posts/" + postId);
+          })
+          .catch(
+            function(error) {
+              this.errors = error.response.data.errors;
+            }.bind(this)
+          );
       }
     }  
   },
   computed: {},
   mounted: function() {
     console.log('hello there');
-    // this.initMap();
-    // this.myMap();
     this.map();
 
   }
@@ -499,9 +468,9 @@ var PostsShowPage = {
       .get("/api/posts/" + this.$route.params.id )
       .then(function(response) {
         this.post = response.data;
-        if (this.post.latitude) {
-          this.initMap();
-        }
+        // if (this.post.latitude) {
+        this.initMap();
+        // }
       }.bind(this));
   },
   methods: {
@@ -655,7 +624,7 @@ var PostsShowPage = {
       axios
         .delete("/api/posts/" + postId)
         .then(function(response) {
-          router.push("/");
+          router.push("/posts");
         })
         .catch(
           function(error) {
@@ -688,8 +657,6 @@ var PostsIndexPage = {
       cities: [],
       countries: [],
       tags: [],
-      current_user_id: "",
-      current_user_chatmates: [],
       searchTerm: "",
       sort_attribute: "",
       sort_order: "",
@@ -706,9 +673,6 @@ var PostsIndexPage = {
         this.countries = response.data.countries;
         this.cities = response.data.cities;
         this.tags = response.data.tags;
-        this.current_user_id = response.data.current_user_id;
-        this.$parent.current_user_chatmates = response.data.current_user_chatmates;
-        this.$parent.current_user_id = response.data.current_user_id;
       }.bind(this));
   },
   methods: {
@@ -843,21 +807,34 @@ var LoginPage = {
       var params = {
         auth: { email: this.email, password: this.password }
       };
+
       axios
-        .post("/user_token", params)
-        .then(function(response) {
-          axios.defaults.headers.common["Authorization"] =
-            "Bearer " + response.data.jwt;
-          localStorage.setItem("jwt", response.data.jwt);
-          router.push("/posts");
-        })
-        .catch(
-          function(error) {
-            this.errors = ["Invalid email or password."];
-            this.email = "";
-            this.password = "";
-          }.bind(this)
-        );
+      .post("/user_token", params)
+      .then(function(response) {
+
+        console.log("Step 1");
+
+        axios.defaults.headers.common["Authorization"] =
+          "Bearer " + response.data.jwt;
+
+        console.log("Step 2");
+
+        localStorage.setItem("jwt", response.data.jwt);
+        localStorage.setItem("user_id", response.data.user.id);
+
+        this.$parent.current_user_id = response.data.user.id;
+        this.$parent.current_user_chatmates = response.data.user.chatmates;
+        // console.log(this.$parent.current_user_chatmates);
+        
+        router.push("/posts");
+      }.bind(this))
+      .catch(
+        function(error) {
+          this.errors = ["Invalid email or password."];
+          this.email = "";
+          this.password = "";
+        }.bind(this)
+      );
     }
   }
 };
@@ -867,6 +844,10 @@ var LogoutPage = {
   created: function() {
     axios.defaults.headers.common["Authorization"] = undefined;
     localStorage.removeItem("jwt");
+    localStorage.removeItem("user_id");
+    this.$parent.current_user_id = "";
+    this.$parent.current_user_chatmates = "";
+
     router.push("/");
   }
 };
@@ -909,5 +890,27 @@ var app = new Vue({
     if (jwt) {
       axios.defaults.headers.common["Authorization"] = jwt;
     }
+
+    var userId = localStorage.getItem("user_id");
+    if (userId) {
+      axios
+      .get("/users/" + userId)
+      .then(function(response) {
+        this.current_user_chatmates = response.data.chatmates;
+      }.bind(this));
+       
+      this.current_user_id = userId;
+    }
   }
 });
+
+
+
+
+
+
+
+
+
+
+

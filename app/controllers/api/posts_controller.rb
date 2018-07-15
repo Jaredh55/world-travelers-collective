@@ -1,12 +1,12 @@
 class Api::PostsController < ApplicationController
   def index
-    @current_user_id = current_user.id
+
     @posts = Post.all
     @cities = City.all
     @countries = Country.all
     @tags = Tag.all
-    @current_user = User.find(@current_user_id)
-    @chatmates = @current_user.chatmates
+    # @current_user = User.find(@current_user_id)
+    # @chatmates = @current_user.chatmates
     
 
     search_term = params[:search]
@@ -93,7 +93,7 @@ class Api::PostsController < ApplicationController
                     post_image: params[:post_image],
                     visit_id: visit.id
                             )
-
+          
         if @post.save
             if params[:tags]
             input_tags = params[:tags].downcase
@@ -124,6 +124,7 @@ class Api::PostsController < ApplicationController
         @post.latitude = params[:latitude] || @post.latitude
         @post.longitude = params[:longitude] || @post.longitude
         @post.visit_id = params[:visit_id] || @post.visit_id
+        @post.post_image = params[:post_image] || @post.post_image
         
         if @post.save
 

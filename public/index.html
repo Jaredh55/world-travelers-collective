@@ -442,7 +442,7 @@
                    <button v-on:click="setAttribute('score')">Sort by Score </button>
                  </div>
                 <!-- End of post 1 -->
-                <div v-for="post in sortedPosts" class="card row-hover pos-relative py-3 px-3 mb-3 border-danger border-top-0 border-right-0 border-bottom-0 rounded-0">
+                <div v-for="post in sortedPosts" class="card row-hover pos-relative py-3 px-3 mb-3 border-info border-top-0 border-right-0 border-bottom-0 rounded-0">
                   <div class="row align-items-center">
                       
                     <div class="col-md-8 mb-3 mb-sm-0">
@@ -511,6 +511,8 @@
   <div class="vue-component">
 
     <div class="container">
+      <br>
+      <br>
       <br>
       <br>
       <br>
@@ -607,12 +609,15 @@
       </ul>
       <div class="form-group">
         <label>Title:</label> 
-        <input type="text" class="form-control" v-model="title">
+        <input type="text" rows="2" class="form-control" v-model="title">
       </div>
       <div class="form-group">
         <label>Content:</label>
-        <input type="text" class="form-control" v-model="content">
+        <!-- <input type="text" class="form-control" v-model="content"> -->
+        <textarea name="textarea" class="form-control" v-model="content" cols="90" rows="3"></textarea>
       </div>
+
+
       <div class="form-group">
         <label>Latitude: </label>
         <input id="latclicked" type="text" class="form-control" v-model="latitude">
@@ -638,7 +643,7 @@
       </div>
 
       <div class="form-group">
-        Image: <input type="file" v-on:change="uploadFile($event)">
+        Image: <input type="file" v-on:change="storeFile($event)">
       </div>
 
       <button class="btn btn-primary" v-on:click="submit()">Create Post</button>
