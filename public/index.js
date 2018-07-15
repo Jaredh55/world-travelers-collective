@@ -321,7 +321,7 @@ var PostsEditPage = {
 };
 
 var PostsNewPage = {
-  template: "#new-post",
+  template: "#posts-new-page",
   data: function() {
     return {
       id: "",
@@ -341,13 +341,13 @@ var PostsNewPage = {
   },
   created: function() {
     console.log('hello');
-    this.initMap();
+    // this.initMap();
   },
   methods: {
     initMap: function() {
       var map;
-      var latitude = 1;
-      var longitude = 1;
+      var latitude = 35.567980458012094;
+      var longitude = 51.4599609375;
       map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: latitude, lng: longitude},
         zoom: 10
@@ -358,24 +358,42 @@ var PostsNewPage = {
         map:map
       });
     },
-    // map: function() {
-    //   var map;
-    //   var opts = { 'center': new google.maps.LatLng(35.567980458012094,51.4599609375), 'zoom': 5, 'mapTypeId': google.maps.MapTypeId.ROADMAP };
-    //         map = new google.maps.Map(document.getElementById('mapdiv'), opts);
+    myMap: function() {
+      var mapProp = {
+        center:new google.maps.LatLng(51.508742,-0.120850),
+        zoom:5,
+      };
+      var map = new google.maps.Map(document.getElementById("map"),mapProp);
 
-    //      google.maps.event.addListener(map,'click',function(event) {
-    //          document.getElementById('latlongclicked').value = event.latLng.lat();
-    //          document.getElementById('lotlongclicked').value =  event.latLng.lng();
-    //      });
+      // google.maps.event.addListener(map, 'click', function(event) {
+      //   alert(event.latLng.lat() + ", " + event.latLng.lng());
+      // });
 
-    //      google.maps.event.addListener(map,'mousemove',function(event) {
-    //          document.getElementById('latspan').innerHTML = event.latLng.lat();
-    //          document.getElementById('lngspan').innerHTML = event.latLng.lng();
-    //      });
+      google.maps.event.addListener(map, 'click', function( event ) {
+        alert( "Latitude: " + event.latLng.lat() + " " + ", Longitude: " + event.latLng.lng() ); 
+      });
 
-    // } 
-    // google.maps.event.addDomListener(window, 'load', init_map);
-    // },
+    },
+
+    map: function() {
+      var map;
+      var opts = { 'center': new google.maps.LatLng(41.89975948569213,-87.63608033178588), 'zoom': 7, 'mapTypeId': google.maps.MapTypeId.ROADMAP };
+      map = new google.maps.Map(document.getElementById('map'), opts);
+
+      google.maps.event.addListener(map,'click',function(event) {
+        document.getElementById('latclicked').value = event.latLng.lat();
+        this.latitude = document.getElementById('latclicked').value;
+        document.getElementById('longclicked').value =  event.latLng.lng();
+        this.longitude = document.getElementById('longclicked').value;
+
+      }.bind(this));
+
+      google.maps.event.addListener(map,'mousemove',function(event) {
+        document.getElementById('latspan').value = event.latLng.lat();
+        document.getElementById('lngspan').value = event.latLng.lng();
+      });
+      // google.maps.event.addDomListener(window, 'load', map);
+    },
     submit: function() {
       var params = {
         title: this.title,
@@ -424,7 +442,14 @@ var PostsNewPage = {
       }
     }  
   },
-  computed: {}
+  computed: {},
+  mounted: function() {
+    console.log('hello there');
+    // this.initMap();
+    // this.myMap();
+    this.map();
+
+  }
 };
 
 var PostsShowPage = {
@@ -655,6 +680,7 @@ var PostsIndexPage = {
       countries: [],
       tags: [],
       current_user_id: "",
+      current_user_chatmates: [],
       searchTerm: "",
       sort_attribute: "",
       sort_order: "",
@@ -672,6 +698,7 @@ var PostsIndexPage = {
         this.cities = response.data.cities;
         this.tags = response.data.tags;
         this.current_user_id = response.data.current_user_id;
+        this.$parent.current_user_chatmates = response.data.current_user_chatmates;
         this.$parent.current_user_id = response.data.current_user_id;
       }.bind(this));
   },
@@ -863,7 +890,8 @@ var app = new Vue({
   el: "#vue-app",
   data: function() {
     return {
-      current_user_id: ""
+      current_user_id: "",
+      current_user_chatmates: []
     };
   },
   router: router,

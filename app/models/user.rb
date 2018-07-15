@@ -51,6 +51,22 @@ class User < ApplicationRecord
     return level
   end
 
+  def chatmates
+    chat_mates = []
+    self.chatrooms.each do |chatroom|
+      chatroom.users.each do |chatroomuser|
+        if chatroomuser.id != self.id
+          chat_mate = {}
+          chat_mate[:user_id] = chatroomuser.id
+          chat_mate[:email] = chatroomuser.email
+          chat_mate[:chatroom_id] = chatroom.id
+          chat_mates << chat_mate
+        end
+      end
+    end
+    return chat_mates
+  end
+
   # def show_posts
   #   posts.each do |post|
   # end

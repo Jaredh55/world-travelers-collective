@@ -20,6 +20,7 @@
 #   json.post_image_square post.post_image.url(:square)
 # end
 json.current_user_id @current_user_id
+json.current_user_chatmates @chatmates
 json.countries @countries
 json.tags @tags
 

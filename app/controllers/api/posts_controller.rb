@@ -5,6 +5,8 @@ class Api::PostsController < ApplicationController
     @cities = City.all
     @countries = Country.all
     @tags = Tag.all
+    @current_user = User.find(@current_user_id)
+    @chatmates = @current_user.chatmates
     
 
     search_term = params[:search]

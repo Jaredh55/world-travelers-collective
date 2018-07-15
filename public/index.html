@@ -71,11 +71,11 @@
       width: 100%;
     }
     /* Optional: Makes the sample page fill the window. */
-    html, body {
+/*    html, body {
       height: 200%;
       margin: 0;
       padding: 0;
-    }
+    }*/
   </style>
 
 
@@ -101,9 +101,11 @@
         }
       </script> -->
 
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAGgPWYYa-gcw1ksehA4JPcC8mZx567x5A&callback=initMap" async defer></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAGgPWYYa-gcw1ksehA4JPcC8mZx567x5A"></script>
 
   <!-- <script src="https://maps.googleapis.com/maps/api/js?key=GOOGLE_MAPS_KEY&callback=initMap" async defer></script> -->
+
+
 
 
 </head>
@@ -123,7 +125,7 @@
   <!-- @plugin: page loading indicator, delete to remove loader -->
   <div class="page-loader" data-toggle="page-loader"></div>
 
-  <a id="#top" href="#content" class="sr-only">Skip to content</a>
+  <!-- <a id="#top" href="#content" class="sr-only">Skip to content</a> -->
 
   <!-- ======== @Region: #header ======== -->
   <div id="header">
@@ -159,7 +161,7 @@
               <li class="nav-item d-none d-md-block"><a href="/#/login" class="nav-link text-white text-sm px-2 "> Log In </a></li>
               <li v-if="current_user_id !== ''" class="nav-item d-none d-md-block"><a href="/#/logout" class="nav-link text-white text-sm px-2 "> Logout </a></li>
               <li class="nav-item ml-lg-3">
-                <a href="#top" class="btn btn-light btn-icon btn-sm" data-toggle="off-canvas" data-target="#offcanvas" data-settings='{"cloneTarget":false, "modalClassExtras":"overlay overlay-light overlay-op-3 overlay-close-cursor"}'> <i class="lnr lnr-menu fa-1x"></i></a>
+                <a class="btn btn-light btn-icon btn-sm" data-toggle="off-canvas" data-target="#offcanvas" data-settings='{"cloneTarget":false, "modalClassExtras":"overlay overlay-light overlay-op-3 overlay-close-cursor"}'> <i class="lnr lnr-menu fa-1x"></i></a>
               </li>
             </ul>
           </div>
@@ -238,31 +240,25 @@
     <a class="js-offcanvas-close c-button c-button--close-right btn btn-sm btn-icon btn-link text-white pos-absolute pos-t pos-r mt-2 mr-2 op-7 pos-zindex-1 pos-zindex-fixed"> <i class="la la-close"></i> </a>
     <div class="pos-relative p-3 px-lg-5 py-lg-6">
       <h6 class="text-uppercase text-letter-spacing text-white op-8">
-        Latest posts
+        Menu
       </h6>
       <ul class="m-0 pl-3 text-sm">
-        <li class="mb-2 text-white op-9"> <a href="#" class="text-white op-7">Why Bootstrap 4 is so awesome?</a> </li>
-        <li class="mb-2 text-white op-9"> <a href="#" class="text-white op-7">HELP! My Windows XP machine is down</a> </li>
-        <li class="mb-2 text-white op-9"> <a href="#" class="text-white op-7">Custom shortcut or command to launch command in terminal?</a> </li>
-        <li class="mb-2 text-white op-9"> <a href="#" class="text-white op-7">My first iOS app, feedback?</a> </li>
+        <li class="mb-2 text-white op-9"> <a v-bind:href="'/#/users/' + current_user_id" class="text-white op-7">My Profile</a> </li>
+        <li class="mb-2 text-white op-9"> <a href="/#/users" class="text-white op-7">Find Users</a> </li>
+        <li class="mb-2 text-white op-9"> <a href="/#/" class="text-white op-7">Home</a> </li>
+        <li class="mb-2 text-white op-9"> <a href="/#/posts/new" class="text-white op-7">New Post</a> </li>
       </ul>
       <hr class="my-4 hr-light op-3" />
-      <h6 class="text-uppercase text-letter-spacing text-white op-8">
-        Categories
+      <h6 v-if="current_user_id !== ''" class="text-uppercase text-letter-spacing text-white op-8">
+        Active Chats:
       </h6>
       <ul class="m-0 pl-3 text-sm">
-        <li class="text-white op-9"> <a href="#" class="text-white op-7">Development</a> </li>
-        <li class="text-white op-9"> <a href="#" class="text-white op-7">C++</a> </li>
-        <li class="text-white op-9"> <a href="#" class="text-white op-7">Android</a> </li>
-        <li class="text-white op-9"> <a href="#" class="text-white op-7">iOS</a> </li>
-        <li class="text-white op-9"> <a href="#" class="text-white op-7">Bootstrap 4</a> </li>
-        <li class="text-white op-9"> <a href="#" class="text-white op-7">AppStrap Theme</a> </li>
-        <li class="text-white op-9"> <a href="#" class="text-white op-7">Wordpress</a> </li>
-        <li class="text-white op-9"> <a href="#" class="text-white op-7">Drupal</a> </li>
+        <li v-for="chatmate in current_user_chatmates" class="text-white op-9"> <a v-bind:href="'/#/chatrooms/' + chatmate.chatroom_id" class="text-white op-7"> {{chatmate.email}}</a> </li>
       </ul>
       <hr class="my-4 hr-light op-3" />
-      <a href="#" class="btn btn-light btn-bold text-uppercase text-letter-spacing text-sm btn-block mb-2"><i class="la la-user-plus"></i> Sign up</a>
-      <a href="#" class="btn btn-light btn-bold text-uppercase text-letter-spacing text-sm btn-block"> <i class="la la-user"></i> Login</a>
+      <a href="/#/signup" class="btn btn-light btn-bold text-uppercase text-letter-spacing text-sm btn-block mb-2"><i class="la la-user-plus"></i> Sign up</a>
+      <a href="/#/login" class="btn btn-light btn-bold text-uppercase text-letter-spacing text-sm btn-block"> <i class="la la-user"></i> Login</a>
+      <a href="/#/logout" class="btn btn-light btn-bold text-uppercase text-letter-spacing text-sm btn-block"> <i class="la la-user"></i> Logout</a>
     </div>
   </div>
 
@@ -530,7 +526,7 @@
 
       <!-- <button v-on:click="initMap()">Make Map!</button> -->
       <h4>Map:</h4>
-      <div style="width:100%;height:300px;background-color:grey;">
+      <div style="width:50%;height:300px;background-color:grey;">
       <div id="map"></div>
       </div>
 
@@ -595,7 +591,7 @@
 
 </template>
 
-<template id="new-post"> 
+<template id="posts-new-page"> 
   <div class="vue-component">
 
     <div class="container">
@@ -619,18 +615,18 @@
       </div>
       <div class="form-group">
         <label>Latitude: </label>
-        <input type="text" class="form-control" v-model="latitude">
+        <input id="latclicked" type="text" class="form-control" v-model="latitude">
       </div>
       <div class="form-group">
         <label> Longitude: </label>
-        <input type="text" class="form-control" v-model="longitude">
+        <input id="longclicked" type="text" class="form-control" v-model="longitude">
       </div>
 
-      <div style="width:100%;height:300px;background-color:grey;">
+      <div style="width:50%;height:300px;background-color:grey;">
       <div id="map"></div>
       </div>
 
-      <h5> Use <a href="https://www.latlong.net/">https://www.latlong.net/</a></h5>
+      <h5>Coordinates:<input id="latspan"><input id="lngspan"></h5>
 
       <div class="form-group">
         <label> City: (must enter city you have visited) </label>
@@ -769,8 +765,10 @@
 
       <a v-if="user.current_user_id === user.user_id" v-bind:href="'/#/users/' + user.user_id + '/edit'">Edit Profile</a>
       <a v-if="user.current_user_id === user.user_id" v-bind:href="'/#/users/' + user.id" data-method="delete">Delete</a>
+      <br>
 
     </div>
+    <br>
   
   </div>
 
@@ -897,7 +895,6 @@
     
     <div class="container">
       <div v-for="user in chatroom.users">
-        <!-- <div v-if="chatroom.current_user_id !== user.id"> You are not authorized to view this chat</div> -->
         <div v-if="chatroom.current_user_id === user.user_id">
           <br>
           <br>
@@ -927,6 +924,9 @@
                 <input type="text" v-model="newChat.content">
                 <input type="submit" name="" value="Add Chat" v-on:click="addChat()"/>
               </form>
+
+
+
 
           <br>
         </div>
