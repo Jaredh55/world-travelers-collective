@@ -13,7 +13,7 @@ class User < ApplicationRecord
   has_many :chats
 
   has_attached_file :user_image, styles: {
-    small: '100x100#',
+    small: '50x50#',
     Large: '300x300#'
   }
     

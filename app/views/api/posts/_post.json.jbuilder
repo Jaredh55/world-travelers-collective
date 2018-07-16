@@ -7,6 +7,7 @@ json.latitude post.latitude
 json.longitude post.longitude
 json.visit post.visit
 json.user post.user
+json.user_image_small post.user.user_image.url(:small)
 json.city post.visit.city
 json.country post.city.country
 json.tags post.tags
@@ -16,6 +17,5 @@ json.votecount post.votes.count
 json.score post.score
 json.commentcount post.comments.count
 json.created_at post.created_at
-json.post_image_thumb post.post_image.url(:thumb)
 json.post_image_medium post.post_image.url(:medium)
-json.post_image_square post.post_image.url(:square)
+json.post_image_large post.post_image.url(:large)

@@ -3,6 +3,8 @@ json.title @post.title
 json.content @post.content
 json.latitude @post.latitude
 json.longitude @post.longitude
+json.created_at @post.created_at
+json.updated_at @post.updated_at
 json.visit @post.visit
 json.user @post.user
 json.user_image @post.user.user_image.url(:small)
@@ -17,8 +19,7 @@ json.score @post.score
 json.current_user_id @current_user_id
 json.post_image @post.post_image
 json.post_image_medium @post.post_image.url(:medium)
-json.post_image_square @post.post_image.url(:square)
-json.post_image_thumb @post.post_image.url(:thumb)
+json.post_image_large @post.post_image.url(:large)
 
 # json.comments @post.comments
 

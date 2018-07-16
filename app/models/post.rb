@@ -14,9 +14,8 @@ class Post < ApplicationRecord
   has_many :images
 
   has_attached_file :post_image, styles: {
-    thumb: '100x100>',
-    square: '200x200#',
-    medium: '300x300>'
+    medium: '300x300>',
+    large: '600x600>'
   }
     
   validates_attachment :post_image,

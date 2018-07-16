@@ -70,6 +70,12 @@
       height: 100%;
       width: 100%;
     }
+
+    .user_icon {
+      border-radius: 50%;
+    }
+
+
     /* Optional: Makes the sample page fill the window. */
 /*    html, body {
       height: 200%;
@@ -396,7 +402,7 @@
             <h2 class="display-4 text-white mb-0 w-100 w-lg-50 mx-auto font-weight-bold" data-animate="fadeIn" data-animate-delay="0.2">
               Where to?
             </h2>
-            <p class="text-white lead w-100 w-lg-60 mx-auto mb-md-6"> Travel advice from people around the world </p>
+            <p class="text-white lead w-100 w-lg-60 mx-auto mb-md-6"> Travel advice from around the world </p>
             <form class="row mb-2 w-100 w-lg-70 align-items-center mx-auto" data-animate="fadeIn" data-animate-delay="0.4">
               <div class="input-group input-group-rounded mb-3">
                 <div class="input-group-prepend" id="sizing-addon1">
@@ -446,11 +452,11 @@
                   <div class="row align-items-center">
                       
                     <div class="col-md-8 mb-3 mb-sm-0">
-                      <img v-bind:src="post.user.user_image">
+                      <!-- <img v-bind:src="post.user_image_small"> -->
                       <h5>
                         <a v-bind:href="'/#/posts/' + post.post_id" class="text-primary">{{post.title}}</a>
                       </h5>
-                      <p class="text-sm"><span class="op-6">Posted</span> <a class="text-black" href="#">{{post.created_at}}</a> <span class="op-6"> by</span> <a class="text-black" v-bind:href="'/#/users/' + post.user.id">{{post.user.email}}</a></p>
+                      <p class="text-sm"><span class="op-6">Posted</span> <a class="text-black" href="#">{{post.created_at}}</a> <span class="op-6"> by</span> <a class="text-black" v-bind:href="'/#/users/' + post.user.id">{{post.user.email}}</a> <img class="user_icon" v-bind:src="post.user_image_small"></p>
                       <div><p class="text-sm">
                         {{post.city.name}}, {{post.country.name}}
                         </p>
@@ -519,23 +525,197 @@
       <br>
       <br>
 
+
+
+
+
+
+      <div class="container">
+            <!-- Product view -->
+            <div class="row">
+              
+              <div class="col-lg-12">
+                <div class="card product-card mb-4">
+                  <!-- Ribbon -->
+       
+                  <!-- Content -->
+                  <div class="card-body p-4 pos-relative">
+                    <!-- Product details -->
+                    <h2 class="card-title mb-2">
+                      {{post.title}}
+                    </h2>
+                    <h4 class="font-weight-bold text-primary">
+                     <a href="">{{post.user.email}}</a>
+                    </h4>
+                    <img v-bind:src="post.post_image_large">
+
+                    <hr class="my-3">
+                    <p>{{post.content}}</p>
+                    <p class="text-muted text-sm"> City: {{post.city.name}}</p>
+                    <p class="text-muted text-sm"> City: {{post.country.name}}</p>
+                    <p class="text-muted text-sm"> Latitude: {{post.latitude}}</p>
+                    <p class="text-muted text-sm"> Longitude: {{post.longitude}}</p>
+                    <hr class="my-3 mb-5">
+                    <h4>Map:</h4>
+                     <div id="map" style="width:50%;height:300px;background-color:grey;"></div>
+
+                     <br>
+
+                     <h4>Votes: {{post.votecount}}</h4>
+                     <h4>Votes: {{post.score}}</h4>
+
+
+
+
+
+
+
+
+                
+                    <!-- Cart options/links -->
+
+                    <a href="shop-cart.html" class="btn btn-primary"><i class="fa fa-cart-plus mr-2"></i> Upvote </a>
+                    <a href="shop-cart.html" class="btn btn-primary"><i class="fa fa-cart-plus mr-2"></i> Downvote </a>
+                    <a href="shop-cart.html" class="btn btn-primary"><i class="fa fa-cart-plus mr-2"></i> Remove Vote </a>
+
+                    <br>
+
+
+                    <h4 class="card-title">
+                      Comments:
+                    </h4>
+                    <hr class="my-4">
+                    <ul class="comments mt-3 list-unstyled">
+                      <li class="media mb-3 pos-relative">
+                        <a href="#">
+                          <img src="assets/img/team/robert.jpg" alt="Picture of Kylie Michaels" class="d-flex mr-3 img-thumbnail img-fluid">
+                        </a>
+                        <div class="media-body">
+                          <ul class="list-inline blog-meta text-muted">
+                            <li class="list-inline-item"><i class="fa fa-calendar"></i> Fri 25th May 2018</li>
+                            <li class="list-inline-item"><i class="fa fa-user"></i> <a href="#">Alexander Vanjuvic</a></li>
+                          </ul>
+                          <h5 class="mt-0 mb-2">
+                            Odio, nunc platea mattis, mid et
+                          </h5>
+                          <p class="mb-1">Odio, nunc platea mattis, mid etOdio, nunc platea mattis, mid etOdio, nunc platea mattis, mid etOdio, nunc platea mattis, mid et</p>
+                          <p><i class="fa fa-star text-primary"></i><i class="fa fa-star text-primary"></i><i class="fa fa-star text-primary"></i><i class="fa fa-star text-primary"></i><i class="fa fa-star text-primary"></i></p>
+                        </div>
+                      </li>
+                      <li class="media mb-3 pos-relative">
+                        <a href="#">
+                          <img src="assets/img/team/bono.jpg" alt="Picture of Tim Rice" class="d-flex mr-3 img-thumbnail img-fluid">
+                        </a>
+                        <div class="media-body">
+                          <ul class="list-inline blog-meta text-muted">
+                            <li class="list-inline-item"><i class="fa fa-calendar"></i> Thu 24th May 2018</li>
+                            <li class="list-inline-item"><i class="fa fa-user"></i> <a href="#">Sara Mason</a></li>
+                          </ul>
+                          <h5 class="mt-0 mb-2">
+                            Porta risus porttitor facilisis sit dapibus
+                          </h5>
+                          <p class="mb-1">Porta risus porttitor facilisis sit dapibusPorta risus porttitor facilisis sit dapibusPorta risus porttitor facilisis sit dapibusPorta risus porttitor facilisis sit dapibus</p>
+                          <p><i class="fa fa-star text-primary"></i><i class="fa fa-star text-primary"></i><i class="fa fa-star text-primary"></i><i class="fa fa-star text-primary"></i><i class="fa fa-star text-primary"></i></p>
+                        </div>
+                      </li>
+                      <li class="media mb-3 pos-relative">
+                        <a href="#">
+                          <img src="assets/img/team/steve.jpg" alt="Picture of Alexander Vanjuvic" class="d-flex mr-3 img-thumbnail img-fluid">
+                        </a>
+                        <div class="media-body">
+                          <ul class="list-inline blog-meta text-muted">
+                            <li class="list-inline-item"><i class="fa fa-calendar"></i> Tue 15th May 2018</li>
+                            <li class="list-inline-item"><i class="fa fa-user"></i> <a href="#">Tim Rice</a></li>
+                          </ul>
+                          <h5 class="mt-0 mb-2">
+                            Enim augue elit adipiscing placerat natoque
+                          </h5>
+                          <p class="mb-1">Enim augue elit adipiscing placerat natoqueEnim augue elit adipiscing placerat natoqueEnim augue elit adipiscing placerat natoqueEnim augue elit adipiscing placerat natoque</p>
+                          <p><i class="fa fa-star text-primary"></i><i class="fa fa-star text-primary"></i><i class="fa fa-star text-primary"></i><i class="fa fa-star text-primary"></i><i class="fa fa-star text-primary"></i></p>
+                        </div>
+                      </li>
+                      <li class="media mb-3 pos-relative">
+                        <a href="#">
+                          <img src="assets/img/team/robert.jpg" alt="Picture of Alexander Vanjuvic" class="d-flex mr-3 img-thumbnail img-fluid">
+                        </a>
+                        <div class="media-body">
+                          <ul class="list-inline blog-meta text-muted">
+                            <li class="list-inline-item"><i class="fa fa-calendar"></i> Tue 1st May 2018</li>
+                            <li class="list-inline-item"><i class="fa fa-user"></i> <a href="#">Mike Thompson</a></li>
+                          </ul>
+                          <h5 class="mt-0 mb-2">
+                            Turpis odio dictumst tempor ac et!
+                          </h5>
+                          <p class="mb-1">Turpis odio dictumst tempor ac et!Turpis odio dictumst tempor ac et!Turpis odio dictumst tempor ac et!Turpis odio dictumst tempor ac et!</p>
+                          <p><i class="fa fa-star text-primary"></i><i class="fa fa-star text-primary"></i><i class="fa fa-star text-primary"></i><i class="fa fa-star text-primary"></i><i class="fa fa-star text-primary"></i></p>
+                        </div>
+                      </li>
+                    </ul>
+                    <hr class="my-4">
+                    <h4>
+                      Add Review
+                    </h4>
+                    <form id="reviews-form" class="comment-form mt-3" role="form">
+                      <div class="row">
+                        <div class="col-md-6 mb-3">
+                          <label class="sr-only" for="comment-name">Name</label>
+                          <input type="text" class="form-control mb-3" id="comment-name" placeholder="Name">
+                          <label class="sr-only" for="comment-name">Email</label>
+                          <input type="email" class="form-control mb-3" id="comment-email" placeholder="Email">
+                          <select class="form-control" placeholder="Star rating">
+                            <option>- Stars -</option>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                          </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <label class="sr-only" for="comment-comment">Comment</label>
+                          <textarea rows="7" class="form-control" id="comment-comment" placeholder="Comment"></textarea>
+                        </div>
+                      </div>
+                      <button type="submit" class="btn btn-primary float-right">Submit</button>
+                    </form>
+
+
+                  </div>
+                </div>
+              </div>
+
+              
+                </div>
+              </div>
+            </div>
+
+
+
+
+
+
+
       <h2>{{ post["title"] }}</h2>
       <h4>Content: {{ post["content"] }}</h4>
       <h4>Image: </h4>
-      <img v-bind:src="post.post_image_medium">
+      <img v-bind:src="post.post_image_large">
+
+
       <h4>Latitude: {{ post["latitude"] }}</h4>
       <h4>Longitude: {{ post["longitude"] }}</h4>
 
       <!-- <button v-on:click="initMap()">Make Map!</button> -->
       <h4>Map:</h4>
-      <div style="width:50%;height:300px;background-color:grey;">
-      <div id="map"></div>
+      <div id="map" style="width:50%;height:300px;background-color:grey;">
       </div>
 
 
       <h4>City: {{ post["city"]["name"] }}</h4>
       <h4>Country: {{ post["country"]["name"] }}</h4>
       <h4>Tags: {{ post["show_tags"] }}</h4>
+      <h6>Posted on: {{post.created_at}}</h6>
+      <h6>Last Updated: {{post.updated_at}}</h6>
+
       <h4>User: <a v-bind:href="'/#/users/' + post.user.id">{{ post["user"]["email"] }}</a></h4>
       <img v-bind:src="post.user_image">
       <!-- <img v-bind:src="post.post_image_square"> -->
@@ -723,7 +903,7 @@
 
       <h2>{{ user.email }}</h2>
 
-      <img class="profilepic_large" v-bind:src="user.user_image_Large">
+      <img class="user_icon" v-bind:src="user.user_image_Large">
   
       <h4>Bio: </h4>
       <h4>{{ user.bio }}</h4>
@@ -795,7 +975,7 @@
       <h4 v-if="user.user_id != user.current_user_id"> You are unable to edit another users profile </h4>
       <h4> Edit Profile </h4>
       <h4> {{user.email}} </h4>
-      <img v-bind:src="user.user_image_small" alt="">
+      <img class="user_icon" v-bind:src="user.user_image_Large">
 
 
       <form>
@@ -929,10 +1109,10 @@
             </div>
           </ol>
 
-          <h4>Add Chat:</h4>
+          <h4>Send Message:</h4>
               <form>
                 <input type="text" v-model="newChat.content">
-                <input type="submit" name="" value="Add Chat" v-on:click="addChat()"/>
+                <input type="submit" name="" value="Send" v-on:click="addChat()"/>
               </form>
 
 

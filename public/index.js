@@ -425,6 +425,8 @@ var PostsNewPage = {
   computed: {},
   mounted: function() {
     console.log('hello there');
+    // this.initMap();
+    // this.myMap();
     this.map();
 
   }
@@ -620,17 +622,12 @@ var PostsShowPage = {
     },
     deletePost: function() {
       var postId = this.post.post_id;
+      router.push("/posts");
 
       axios
-        .delete("/api/posts/" + postId)
-        .then(function(response) {
-          router.push("/posts");
-        })
-        .catch(
-          function(error) {
-            this.errors = error.response.data.errors;
-          }.bind(this)
-        );
+        .delete("/api/posts/" + postId);
+    }
+
     //   axios
     //     .get("/api/posts/" + postId)
     //     .then(function(response) {
@@ -638,7 +635,6 @@ var PostsShowPage = {
     //       // this.post.votecount = response.data.votecount;
     //       // router.push("/posts/" + postId);
     //     }.bind(this));
-    }
 
   },
   computed: {},
