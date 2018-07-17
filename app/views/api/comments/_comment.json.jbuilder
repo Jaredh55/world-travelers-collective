@@ -5,3 +5,5 @@ json.content comment.content
 json.votes comment.votes
 json.votecount comment.votes.count
 json.score comment.score
+json.user_image comment.user.user_image.url(:small)
+json.created_at comment.created_at
