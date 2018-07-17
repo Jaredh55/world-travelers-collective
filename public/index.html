@@ -75,6 +75,11 @@
       border-radius: 50%;
     }
 
+    .bgimg {
+      background-image: url('assets/img/backgrounds/man-with-open-arms-saluting-the-nature-picjumbo-com.jpg');
+      background-size: cover;
+    } 
+
 
     /* Optional: Makes the sample page fill the window. */
 /*    html, body {
@@ -268,24 +273,7 @@
   </div>
 
   <!-- Style switcher - demo only - @todo: remove in production -->
-  <div class="colour-switcher">
-    <a href="#" class="colour-switcher-toggle" data-toggle="class" data-target=".colour-switcher"> <i class="fa fa-paint-brush"></i> </a>
-    <h5 class="text-uppercase my-0">
-      Theme Colours
-    </h5>
-    <hr />
-    <div class="theme-colours"> <a href="#green" class="green active" data-toggle="tooltip" data-placement="right" data-original-title="Green (Default)">Green</a> <a href="#red" class="red" data-toggle="tooltip" data-placement="right" data-original-title="Red">Red</a> <a href="#blue"
-        class="blue" data-toggle="tooltip" data-placement="right" data-original-title="Blue">Blue</a> <a href="#purple" class="purple" data-toggle="tooltip" data-placement="right" data-original-title="Purple">Purple</a> <a href="#pink" class="pink" data-toggle="tooltip"
-        data-placement="right" data-original-title="Pink">Pink</a> <a href="#orange" class="orange" data-toggle="tooltip" data-placement="right" data-original-title="Orange">Orange</a> <a href="#lime" class="lime" data-toggle="tooltip" data-placement="right"
-        data-original-title="Lime">Lime</a> <a href="#blue-dark" class="blue-dark" data-toggle="tooltip" data-placement="right" data-original-title="Blue-dark">Blue-dark</a> <a href="#red-dark" class="red-dark" data-toggle="tooltip" data-placement="right"
-        data-original-title="Red-dark">Red-dark</a> <a href="#brown" class="brown" data-toggle="tooltip" data-placement="right" data-original-title="Brown">Brown</a> <a href="#cyan-dark" class="cyan-dark" data-toggle="tooltip" data-placement="right" data-original-title="Cyan-dark">Cyan-dark</a>      <a href="#yellow" class="yellow" data-toggle="tooltip" data-placement="right" data-original-title="Yellow">Yellow</a> <a href="#slate" class="slate" data-toggle="tooltip" data-placement="right" data-original-title="Slate">Slate</a> <a href="#olive"
-        class="olive" data-toggle="tooltip" data-placement="right" data-original-title="Olive">Olive</a> <a href="#teal" class="teal" data-toggle="tooltip" data-placement="right" data-original-title="Teal">Teal</a> <a href="#green-bright" class="green-bright"
-        data-toggle="tooltip" data-placement="right" data-original-title="Green-bright">Green-bright</a> </div>
-    <hr />
-    <p class="text-xs text-muted">Cookies are NOT enabled so colour selection is not persistent.</p>
-    <p class="text-xs my-0"><a href="index.html">Back to main homepage</a></p>
-    <p class="text-xs my-0"><a href="intro.html">Back to intro page</a></p>
-  </div>
+  
   <!--Hidden elements - excluded from jPanel Menu on mobile-->
   <div class="hidden-elements js-off-canvas-exclude"></div>
 
@@ -453,20 +441,22 @@
 
     <div id="highlighted">
       <!-- Image Banner: Use the the data-bg-img functionality to create a simple image banner Use spacer classes to make the banner larger with padding, allows for easy responsive changes too see: elements-ctas.htm To make the banner full height/screen add the attributes: data-toggle="full-height" data-offset="#header"-->
-      <div class="bg-white text-center text-lg-left py-5 py-lg-10 flex-valign" data-bg-img="assets/img/backgrounds/man-with-open-arms-saluting-the-nature-picjumbo-com.jpg" 
-      data-css='{"background-position":"center top","background-attachment":"fixed"}' data-toggle="full-height" data-breakpoint="992">
+      <br>
+      <br>
+      <br>
+      <div class="bgimg bg-white text-center text-lg-left py-5 py-lg-10 flex-valign">
 
       <!-- assets/img/index-forum/banner-1.jpg -->
     
       <!-- assets/img/backgrounds/man-with-open-arms-saluting-the-nature-picjumbo-com.jpg -->
 
-        <div data-toggle="sticky" data-settings='{"persist":true,"breakpoint":992}' class="pos-t-auto">
-          <div class="container pt-6 text-center" data-scroll="scrollax">
-            <h2 class="display-4 text-white mb-0 w-100 w-lg-50 mx-auto font-weight-bold" data-animate="fadeIn" data-animate-delay="0.2">
+        <div  class="pos-t-auto">
+          <div class="container pt-10 text-center" >
+            <h2 class="display-4 text-white mb-0 w-100 w-lg-50 mx-auto font-weight-bold" >
               Where to?
             </h2>
             <p class="text-white lead w-100 w-lg-60 mx-auto mb-md-6"> Travel advice from around the world </p>
-            <form class="row mb-2 w-100 w-lg-70 align-items-center mx-auto" data-animate="fadeIn" data-animate-delay="0.4">
+            <form class="row mb-2 w-100 w-lg-70 align-items-center mx-auto" >
               <div class="input-group input-group-rounded mb-3">
                 <div class="input-group-prepend" id="sizing-addon1">
                   <span class="input-group-text bg-grey border-0">
@@ -572,6 +562,9 @@
       </div> -->
 
     </div>
+
+    <br>
+    <br>
 
   </div>
 </template>
