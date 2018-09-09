@@ -24,6 +24,8 @@ gem 'paperclip'
 
 gem 'aws-sdk-s3'
 
+gem 'seed_dump'
+
 # gem 'aws-sdk', '~> 2.6'
 
 gem 'figaro'
