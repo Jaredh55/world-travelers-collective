@@ -78,7 +78,11 @@
     .bgimg {
       background-image: url('assets/img/backgrounds/man-with-open-arms-saluting-the-nature-picjumbo-com.jpg');
       background-size: cover;
-    } 
+    }
+
+    .customheader {
+      background-color: blue;
+    }
 
 
     /* Optional: Makes the sample page fill the window. */
@@ -187,11 +191,11 @@
   <!-- ======== @Region: #footer ======== -->
   <footer id="footer" class="py-0 bg-dark bg-op-9 border-0">
     <!-- Prefooter -->
-    <div class="bg-dark py-1">
+    <div class="bg-dark py-2">
       <div class="container">
         <div class="row">
           <!-- Categories block -->
-          <div class="col-md-2 col-xs-12 mb-4 mb-md-0">
+<!--           <div class="col-md-2 col-xs-12 mb-4 mb-md-0">
             <h6 class="text-uppercase text-letter-spacing">
               Categories
             </h6>
@@ -205,9 +209,9 @@
               <li> <a href="#" class="text-white op-7">Wordpress</a> </li>
               <li> <a href="#" class="text-white op-7">Drupal</a> </li>
             </ul>
-          </div>
+          </div> -->
           <!-- Latest posts -->
-          <div class="col-md-7 col-xs-12 mb-4 mb-md-0">
+<!--           <div class="col-md-7 col-xs-12 mb-4 mb-md-0">
             <h6 class="text-uppercase text-letter-spacing">
               Latest posts
             </h6>
@@ -219,22 +223,24 @@
               <li class="mb-2"> <a href="#" class="text-white op-7">Why Bootstrap 4 is so awesome?</a> </li>
               <li class="mb-2"> <a href="#" class="text-white op-7">My first iOS app, feedback?</a> </li>
             </ul>
-          </div>
+          </div> -->
           <!-- Social media -->
-          <div class="col-md-3 col-xs-12">
+      
+          <div class="col-md-12 col-xs-12">
             <h6 class="text-uppercase text-letter-spacing">
-              Follow us
+              Follow Creator
             </h6>
-            <a href="#" class="btn btn-light btn-sm btn-icon border-0 bg-hover-brand-twitter text-hover-white"> <i class="fab fa-twitter"></i> </a>
-            <a href="#" class="btn btn-light btn-sm btn-icon border-0 bg-hover-brand-facebook text-hover-white"> <i class="fab fa-facebook-f"></i> </a>
-            <a href="#" class="btn btn-light btn-sm btn-icon border-0 bg-hover-brand-linkedin text-hover-white"> <i class="fab fa-linkedin-in"></i> </a>
-            <a href="#" class="btn btn-light btn-sm btn-icon border-0 bg-hover-brand-google-plus text-hover-white"> <i class="fab fa-google-plus-g"></i> </a>
+            <!-- <a href="#" class="btn btn-light btn-sm btn-icon border-0 bg-hover-brand-twitter text-hover-white"> <i class="fab fa-twitter"></i> </a> -->
+            <a href="https://github.com/Jaredh55" class="btn btn-light btn-sm btn-icon border-0 bg-hover-brand-github text-hover-white"> <i class="fab fa-github"></i> </a>
+            <a href="https://www.linkedin.com/in/jared-hammernik/" class="btn btn-light btn-sm btn-icon border-0 bg-hover-brand-linkedin text-hover-white"> <i class="fab fa-linkedin-in"></i> </a>
+            <!-- <a href="#" class="btn btn-light btn-sm btn-icon border-0 bg-hover-brand-google-plus text-hover-white"> <i class="fab fa-google-plus-g"></i> </a> -->
             <div class="mt-4">
               <h6 class="text-uppercase text-letter-spacing">
                 Join us
               </h6>
-              <a href="#" class="btn btn-light btn-bold text-uppercase text-letter-spacing text-sm"><i class="la la-user-plus"></i> Sign up</a>
-              <a href="#" class="btn btn-light btn-bold text-uppercase text-letter-spacing text-sm"> <i class="la la-user"></i> Login</a>
+              <a href="/#/signup" class="btn btn-light btn-bold text-uppercase text-letter-spacing text-sm"><i class="la la-user-plus"></i> Sign up</a>
+              <a href="/#/login" class="btn btn-light btn-bold text-uppercase text-letter-spacing text-sm"> <i class="la la-user"></i> Login</a>
+
             </div>
           </div>
         </div>
@@ -443,7 +449,7 @@
       <!-- Image Banner: Use the the data-bg-img functionality to create a simple image banner Use spacer classes to make the banner larger with padding, allows for easy responsive changes too see: elements-ctas.htm To make the banner full height/screen add the attributes: data-toggle="full-height" data-offset="#header"-->
       <br>
       <br>
-      <br>
+
       <div class="bgimg bg-white text-center text-lg-left py-5 py-lg-10 flex-valign">
 
       <!-- assets/img/index-forum/banner-1.jpg -->
@@ -603,7 +609,8 @@
                     <center><h4 class="font-weight-bold text-primary"><img class="user_icon" v-bind:src="post.user_image" alt=""> 
                      <a v-bind:href="'/#/users/' + post.user.id">{{post.user.email}}</a>
                     </h4></center>
-                    <br>
+                    <hr class="my-3">
+                    
                     <center><img v-bind:src="post.post_image_large"></center>
 
                     <hr class="my-3">
@@ -611,7 +618,7 @@
                     <h5>{{post.content}}</h5>
                     <br>
                     <p class="text-muted text-sm"> City: {{post.city.name}}</p>
-                    <p class="text-muted text-sm"> City: {{post.country.name}}</p>
+                    <p class="text-muted text-sm"> Country: {{post.country.name}}</p>
                     <p class="text-muted text-sm"> Latitude: {{post.latitude}}</p>
                     <p class="text-muted text-sm"> Longitude: {{post.longitude}}</p>
                     <p class="text-muted text-sm"> Tags: {{post.show_tags}}</p>
@@ -1144,6 +1151,7 @@
     <div class="vue-component">
 
       <div class="container">
+        <br>
         <br>
         <br>
         <br>

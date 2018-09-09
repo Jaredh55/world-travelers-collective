@@ -118,6 +118,9 @@ class Api::PostsController < ApplicationController
   def update
       post_id = params[:id]
       @post = Post.find(post_id)
+      # city = params[:city]
+      # visit = Visit.find_by(user_id: current_user.id, city_id: city.id)
+      # visit_id = visit.id
 
         @post.title = params[:title] || @post.title
         @post.content = params[:content] || @post.content

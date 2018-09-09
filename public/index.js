@@ -622,10 +622,11 @@ var PostsShowPage = {
     },
     deletePost: function() {
       var postId = this.post.post_id;
-      router.push("/posts");
-
       axios
         .delete("/api/posts/" + postId);
+        
+      router.push("/posts");
+
     }
 
     //   axios
