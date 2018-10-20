@@ -282,6 +282,7 @@ var PostsEditPage = {
     .get("/api/posts/" + this.$route.params.id )
     .then(function(response) {
       this.post = response.data;
+      this.map();
     }.bind(this));
   },
   methods: {
@@ -308,10 +309,74 @@ var PostsEditPage = {
           }.bind(this)
         );
     },
+    submit2: function() {
+      if (this.post_image) {
+        var formData = new FormData();
+        formData.append("title", this.post.title);
+        formData.append("content", this.post.content);
+        formData.append("latitude", this.post.latitude);
+        formData.append("longitude", this.post.longitude);
+        formData.append("city", this.post.city);
+        formData.append("tags", this.post.show_tags);
+
+        formData.append("post_image", this.post_image);
+
+        axios
+          .patch("/api/posts/" + this.$route.params.id, formData)
+          .then(function(response) {
+            console.log(response);
+            var postId = response.data.post_id;
+            router.push("/posts/" + postId);
+          })
+          .catch(
+            function(error) {
+              this.errors = error.response.data.errors;
+            }.bind(this)
+          );
+      } else {
+        var params = {
+          title: this.post.title,
+          content: this.post.content,
+          latitude: this.post.latitude,
+          longitude: this.post.longitude,
+          city: this.post.city,
+          tags: this.post.show_tags
+        };
+        axios
+          .patch("/api/posts/" + this.$route.params.id, params)
+          .then(function(response) {
+            var postId = response.data.post_id;
+            router.push("/posts/" + postId);
+          })
+          .catch(
+            function(error) {
+              this.errors = error.response.data.errors;
+            }.bind(this)
+          );
+      }
+    },
+    storeFile: function(event) {
+      if (event.target.files.length > 0) {
+        this.post_image = event.target.files[0];
+        this.storeEvent = event;
+      }
+    },
     map: function() {
       var map;
-      var opts = { 'center': new google.maps.LatLng(41.89975948569213,-87.63608033178588), 'zoom': 7, 'mapTypeId': google.maps.MapTypeId.ROADMAP };
-      map = new google.maps.Map(document.getElementById('map'), opts);
+      var latitude = parseFloat(this.post.latitude);
+      var longitude = parseFloat(this.post.longitude);
+      map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: latitude, lng: longitude},
+        zoom: 10
+      });
+
+      var marker = new google.maps.Marker({
+        position:{lat: latitude, lng: longitude},
+        map:map
+      });
+      // var map;
+      // var opts = { 'center': new google.maps.LatLng(41.89975948569213,-87.63608033178588), 'zoom': 7, 'mapTypeId': google.maps.MapTypeId.ROADMAP };
+      // map = new google.maps.Map(document.getElementById('map'), opts);
 
       google.maps.event.addListener(map,'click',function(event) {
         document.getElementById('latclicked').value = event.latLng.lat();
@@ -351,7 +416,7 @@ var PostsEditPage = {
     console.log('hello there');
     // this.initMap();
     // this.myMap();
-    this.map();
+    // this.map();
 
   }
 };
