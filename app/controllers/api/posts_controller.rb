@@ -107,7 +107,7 @@ class Api::PostsController < ApplicationController
           render 'show.json.jbuilder'
 
         elsif
-          render json: {errors: @post.errors.full_messages}, status: :unprocessable_entity
+          render json: {errors: @post.errors.full_messages}, status: :unprocessable_entitys
         # render json: {errors: @post.errors.full_messages}, status: :unprocessable_entity
         end
     else

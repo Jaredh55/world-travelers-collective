@@ -863,12 +863,20 @@
       </div>
       <div class="form-group">
         <label>Latitude: </label>
-        <input type="text" class="form-control" v-model="post.latitude">
+        <input id="latclicked" type="text" class="form-control" v-model="post.latitude">
       </div>
       <div class="form-group">
         <label> Longitude: </label>
-        <input type="text" class="form-control" v-model="post.longitude">
+        <input id="longclicked" type="text" class="form-control" v-model="post.longitude">
       </div>
+
+      <div style="width:50%;height:300px;background-color:grey;">
+      <div id="map"></div>
+      </div>
+
+      <h5>Coordinates:<input id="latspan"><input id="lngspan"></h5>
+
+
       <div class="form-group">
         <label> City: </label>
         <input type="text" class="form-control" v-model="post.city.name">

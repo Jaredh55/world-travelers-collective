@@ -305,6 +305,28 @@ var PostsEditPage = {
           }.bind(this)
         );
     },
+    map: function() {
+      var map;
+      var opts = { 'center': new google.maps.LatLng(41.89975948569213,-87.63608033178588), 'zoom': 7, 'mapTypeId': google.maps.MapTypeId.ROADMAP };
+      map = new google.maps.Map(document.getElementById('map'), opts);
+
+      google.maps.event.addListener(map,'click',function(event) {
+        document.getElementById('latclicked').value = event.latLng.lat();
+        this.post.latitude = document.getElementById('latclicked').value;
+        document.getElementById('longclicked').value =  event.latLng.lng();
+        this.post.longitude = document.getElementById('longclicked').value;
+        var marker = new google.maps.Marker({
+          position:{lat: parseFloat(this.post.latitude), lng: parseFloat(this.post.longitude)},
+          map:map
+        });
+
+      }.bind(this));
+
+      google.maps.event.addListener(map,'mousemove',function(event) {
+        document.getElementById('latspan').value = event.latLng.lat();
+        document.getElementById('lngspan').value = event.latLng.lng();
+      });
+    },
     uploadPostPic: function(event) {
       if (event.target.files.length > 0) {
         var formData = new FormData();
@@ -321,7 +343,14 @@ var PostsEditPage = {
       }
     }
   },
-  computed: {}
+  computed: {},
+  mounted: function() {
+    console.log('hello there');
+    // this.initMap();
+    // this.myMap();
+    this.map();
+
+  }
 };
 
 var PostsNewPage = {
