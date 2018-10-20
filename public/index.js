@@ -259,20 +259,22 @@ var PostsEditPage = {
         visit_id: "",
         city: "",
         tags: "",
-        show_tags: ""
+        show_tags: "",
+        post_image: ""
       },
+      post_image: "",
       post_image_file_name: "",
       post_image_content_type: "",
       post_image_file_size: "",
-      post_image_updated_at: "",
-      new_post: {
-        edited_title: "",
-        edited_content: "",
-        edited_latitude: "",
-        edited_longitude: "",
-        edited_city: "",
-        edited_tags: ""
-      }
+      post_image_updated_at: ""
+      // new_post: {
+      //   edited_title: "",
+      //   edited_content: "",
+      //   edited_latitude: "",
+      //   edited_longitude: "",
+      //   edited_city: "",
+      //   edited_tags: ""
+      // }
     };
   },
   created: function() {
@@ -292,7 +294,8 @@ var PostsEditPage = {
         latitude: this.post.latitude,
         longitude: this.post.longitude,
         city: this.post.city,
-        tags: this.post.show_tags
+        tags: this.post.show_tags,
+        post_image: this.post_image
       };
       axios
         .patch("/api/posts/" + this.$route.params.id, params)
