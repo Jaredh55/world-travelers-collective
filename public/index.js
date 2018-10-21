@@ -344,6 +344,7 @@ var PostsEditPage = {
           city: this.post.city,
           tags: this.post.show_tags
         };
+        console.log(params);
         axios
           .patch("/api/posts/" + this.$route.params.id, params)
           .then(function(response) {

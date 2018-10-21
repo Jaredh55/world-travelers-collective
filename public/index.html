@@ -1271,7 +1271,7 @@
 
           <h4>Send Message:</h4>
               <form>
-                <input type="textarea" rows="2" v-model="newChat.content">
+                <textarea type="textarea" rows="2" cols="50" v-model="newChat.content"></textarea>
                 <input type="submit" name="" value="Send" v-on:click="addChat()"/>
               </form>
 

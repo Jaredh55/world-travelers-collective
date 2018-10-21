@@ -127,7 +127,9 @@ class Api::PostsController < ApplicationController
         @post.latitude = params[:latitude] || @post.latitude
         @post.longitude = params[:longitude] || @post.longitude
         @post.visit_id = params[:visit_id] || @post.visit_id
-        @post.post_image = params[:post_image] || @post.post_image
+        if params[:post_image]
+          @post.post_image = params[:post_image]
+        end
         
         if @post.save
 
