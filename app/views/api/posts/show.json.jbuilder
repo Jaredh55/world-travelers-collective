@@ -4,7 +4,9 @@ json.content @post.content
 json.latitude @post.latitude
 json.longitude @post.longitude
 json.created_at @post.created_at
+json.formattedcreated_at @post.formattedcreated_at
 json.updated_at @post.updated_at
+json.formattedupdated_at @post.formattedupdated_at
 json.visit @post.visit
 json.user @post.user
 json.user_image @post.user.user_image.url(:small)

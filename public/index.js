@@ -262,7 +262,7 @@ var PostsEditPage = {
         show_tags: "",
         post_image: ""
       },
-      post_image: "",
+      post_image: null,
       post_image_file_name: "",
       post_image_content_type: "",
       post_image_file_size: "",
@@ -311,6 +311,7 @@ var PostsEditPage = {
     },
     submit2: function() {
       if (this.post_image) {
+        console.log("image exists");
         var formData = new FormData();
         formData.append("title", this.post.title);
         formData.append("content", this.post.content);
@@ -334,6 +335,7 @@ var PostsEditPage = {
             }.bind(this)
           );
       } else {
+        console.log("image does not exist");
         var params = {
           title: this.post.title,
           content: this.post.content,

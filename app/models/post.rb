@@ -43,6 +43,14 @@ class Post < ApplicationRecord
     upvotes - downvotes
   end
 
+  def formattedcreated_at
+    self.created_at.strftime("%A, %d %b %Y %l:%M %p")
+  end
+
+  def formattedupdated_at
+    self.updated_at.strftime("%A, %d %b %Y %l:%M %p")
+  end
+
   def self.sort_by_score_asc
     # posts = self.all
     # posts.sort_by do |post|

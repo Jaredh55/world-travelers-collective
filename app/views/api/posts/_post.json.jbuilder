@@ -17,5 +17,6 @@ json.votecount post.votes.count
 json.score post.score
 json.commentcount post.comments.count
 json.created_at post.created_at
+json.formattedcreated_at post.formattedcreated_at
 json.post_image_medium post.post_image.url(:medium)
 json.post_image_large post.post_image.url(:large)
