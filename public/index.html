@@ -659,7 +659,7 @@
                         </a>
                         <div class="media-body">
                           <ul class="list-inline blog-meta text-muted">
-                            <li class="list-inline-item"><i class="fa fa-calendar"></i> {{comment.created_at}}</li>
+                            <li class="list-inline-item"><i class="fa fa-calendar"></i> {{comment.formattedcreated_at}}</li>
                             <li class="list-inline-item"><i class="fa fa-user"></i> <a v-bind:href="'#/users/' + comment.user_id">{{comment.user}}</a></li>
                           </ul>
    <!--                        <h5 class="mt-0 mb-2">
@@ -994,13 +994,13 @@
         <h4>Chats: </h4>
         <div v-if="user.current_user_id !== user.user_id" v-for="chatroom in user.chatrooms">
           <div v-for="chatroom_user in chatroom.chatroom_users">
-            <a v-if="chatroom_user.id === user.current_user_id" v-bind:href="'/#/chatrooms/' + chatroom.id"> Continue Chat with This User </a> <h6 v-if="chatroom_user.id === user.current_user_id">Created on {{chatroom.created_at}}</h6>
+            <a v-if="chatroom_user.id === user.current_user_id" v-bind:href="'/#/chatrooms/' + chatroom.id"> Continue Chat with This User </a> <h6 v-if="chatroom_user.id === user.current_user_id">Created on {{chatroom.formattedcreated_at}}</h6>
           </div>
         </div>
 
         <div v-if="user.current_user_id === user.user_id" v-for="chatroom in user.chatrooms">
           <div v-for="chatroom_user in chatroom.chatroom_users">
-            <a v-if="chatroom_user.id !== user.current_user_id" v-bind:href="'/#/chatrooms/' + chatroom.id"> Continue Chat with {{chatroom_user.email}}</a> <h6 v-if="chatroom_user.id !== user.current_user_id">Created on {{chatroom.created_at}}</h6>
+            <a v-if="chatroom_user.id !== user.current_user_id" v-bind:href="'/#/chatrooms/' + chatroom.id"> Continue Chat with {{chatroom_user.email}}</a> <h6 v-if="chatroom_user.id !== user.current_user_id">Created on {{chatroom.formattedcreated_at}}</h6>
           </div>
         </div>
 

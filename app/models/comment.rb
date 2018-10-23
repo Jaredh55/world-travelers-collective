@@ -23,4 +23,8 @@ class Comment < ApplicationRecord
     comments = self.all
     comments.sort_by {|comment| comment.score}
   end
+
+  def formattedcreated_at
+    self.created_at.strftime("%A, %d %b %Y %l:%M %p")
+  end
 end
