@@ -466,10 +466,10 @@
               <div class="input-group input-group-rounded mb-3">
                 <div class="input-group-prepend" id="sizing-addon1">
                   <span class="input-group-text bg-grey border-0">
-                      <button v-on:click="searchPosts(); goto('seeposts')" type="submit" class="border-0 btn-block btn-lg pr-0 outline-0 bg-transparent"><i class="ion-android-search icon-1x op-5"></i></button>
+                      <button v-on:click="searchPosts(); goto('seeposts')" type="button" class="border-0 btn-block btn-lg pr-0 outline-0 bg-transparent"><i class="ion-android-search icon-1x op-5"></i></button>
                     </span>
                 </div>
-                <input list="search_dropdown_options" type="search" v-model="searchTerm" v-on:keyup.enter="searchPosts(); goto('seeposts')" class="form-control bg-grey border-0 outline-0 font-italic" placeholder="Search ..."/>
+                <input list="search_dropdown_options" type="search" v-model="searchTerm" v-on:keypress.enter.prevent="searchPosts(); goto('seeposts')" class="form-control bg-grey border-0 outline-0 font-italic" placeholder="Search ..."/>
                 <datalist id="search_dropdown_options">
                   <option v-for="city in cities" >{{city.name}}</option>
                   <option v-for="country in countries">{{country.name}}</option>
@@ -690,7 +690,7 @@
                           <textarea type="text" v-model="newComment.content" rows="4" class="form-control" id="comment-comment" placeholder="Comment"></textarea>
                         </div>
                       </div>
-                      <button v-on:click="addComment()" type="submit" class="btn btn-primary float-right">Add Comment</button>
+                      <button v-on:click="addComment()" type="button" class="btn btn-primary float-right">Add Comment</button>
                     </form>
 
                     <br>
@@ -1171,7 +1171,7 @@
         <h2>Users Search: </h2>
         <h5>Search by Username, Bio, or places Visited</h5>
         <form>
-          <input type="search" v-model="searchTerm" v-on:keyup.enter="searchUsers()" class="form-control bg-grey outline-0 font-italic" placeholder="Search ..."/>
+          <input type="search" v-model="searchTerm" v-on:keypress.enter.prevent="searchUsers()" class="form-control bg-grey outline-0 font-italic" placeholder="Search ..."/>
         </form>
 
         <br>
@@ -1272,7 +1272,7 @@
           <h4>Send Message:</h4>
               <form>
                 <textarea type="textarea" rows="2" cols="50" v-model="newChat.content"></textarea>
-                <input type="submit" name="" value="Send" v-on:click="addChat()"/>
+                <input type="button" name="" value="Send" v-on:click="addChat()"/>
               </form>
 
 

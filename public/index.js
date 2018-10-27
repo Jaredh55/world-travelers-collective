@@ -762,7 +762,7 @@ var PostsIndexPage = {
       selected: ""
     };
   },
-  created: function() {
+  mounted: function() {
     axios
       .get("/api/posts")
       .then(function(response) {
@@ -952,6 +952,7 @@ var LogoutPage = {
 
 
 var router = new VueRouter({
+  // mode: 'history',
   routes: [
     { path: "/", component: PostsIndexPage },
     { path: "/signup", component: SignupPage},
