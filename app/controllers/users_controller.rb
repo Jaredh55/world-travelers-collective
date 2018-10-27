@@ -40,6 +40,7 @@ class UsersController < ApplicationController
   end
 
   def create
+    #username and email are the same!
     @user = User.new(
       email: params[:email],
       bio: params[:bio],
