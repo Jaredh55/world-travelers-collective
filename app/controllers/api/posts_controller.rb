@@ -17,9 +17,6 @@ class Api::PostsController < ApplicationController
       capitalize_search_term = params[:search].downcase.titleize
       lowercase_search_term = params[:search].downcase
       temp_posts = []
-      if city = City.find_by(name: search_term)
-        temp_posts = temp_posts + city.posts
-      end
       if city = City.find_by(name: capitalize_search_term)
         temp_posts = temp_posts + city.posts
       end
