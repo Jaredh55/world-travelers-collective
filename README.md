@@ -1,24 +1,6 @@
-# README
+# World Travelers Collective
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This repository contains code for my capstone project within the Actualize curriculum. This is an application that allows users to share travel advice and experiences with others by posting images, content, and maps including GPS coordinates, and allowing chats with other users, votes, and comments on posts, among other features. The backend of the app was built using Ruby on Rails, and the frontend using VueJS.
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Hosted on Heroku:
+https://warm-earth-49417.herokuapp.com/#/
